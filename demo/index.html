@@ -32,18 +32,14 @@
             overflow-x: hidden;
         }
 
-        /* Background glow */
         body::before {
             content: '';
             position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
             background: radial-gradient(circle at 30% 20%, rgba(0,212,170,0.06) 0%, transparent 50%),
                         radial-gradient(circle at 70% 80%, rgba(244,185,66,0.04) 0%, transparent 50%);
-            z-index: 0;
-            pointer-events: none;
+            z-index: 0; pointer-events: none;
         }
 
         .container {
@@ -55,662 +51,325 @@
         }
 
         /* Header */
-        header {
-            padding: 32px 0 16px;
-            text-align: center;
-        }
+        header { padding: 32px 0 16px; text-align: center; }
 
         .logo-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            padding: 8px 20px;
-            font-size: 13px;
-            color: var(--accent-teal);
-            margin-bottom: 16px;
-            backdrop-filter: blur(10px);
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 100px; padding: 8px 20px;
+            font-size: 13px; color: var(--accent-teal);
+            margin-bottom: 16px; backdrop-filter: blur(10px);
         }
 
         h1 {
-            font-size: clamp(28px, 5vw, 48px);
-            font-weight: 800;
+            font-size: clamp(28px, 5vw, 48px); font-weight: 800;
             background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-teal) 50%, var(--accent-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-            margin-bottom: 12px;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; line-height: 1.2; margin-bottom: 12px;
         }
 
         .subtitle {
-            font-size: 16px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
+            font-size: 16px; color: var(--text-secondary);
+            max-width: 600px; margin: 0 auto; line-height: 1.6;
         }
 
-        /* Steps indicator */
-        .steps-bar {
-            display: flex;
-            justify-content: center;
-            gap: 4px;
-            margin: 40px 0 32px;
-        }
+        /* Steps */
+        .steps-bar { display: flex; justify-content: center; gap: 4px; margin: 40px 0 32px; }
+        .step-dot { width: 48px; height: 4px; border-radius: 2px; background: var(--border); transition: all 0.5s ease; }
+        .step-dot.active { background: var(--accent-teal); box-shadow: 0 0 12px rgba(0,212,170,0.4); }
+        .step-dot.done { background: rgba(0,212,170,0.3); }
+        .step-labels { display: flex; justify-content: center; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+        .step-label { font-size: 12px; color: var(--text-secondary); text-align: center; opacity: 0.5; transition: all 0.3s; }
+        .step-label.active { color: var(--accent-teal); opacity: 1; }
 
-        .step-dot {
-            width: 48px;
-            height: 4px;
-            border-radius: 2px;
-            background: var(--border);
-            transition: all 0.5s ease;
-        }
-
-        .step-dot.active {
-            background: var(--accent-teal);
-            box-shadow: 0 0 12px rgba(0,212,170,0.4);
-        }
-
-        .step-dot.done {
-            background: rgba(0,212,170,0.3);
-        }
-
-        .step-labels {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-        }
-
-        .step-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-align: center;
-            opacity: 0.5;
-            transition: all 0.3s;
-        }
-
-        .step-label.active {
-            color: var(--accent-teal);
-            opacity: 1;
-        }
-
-        /* Main content area */
+        /* Demo panel */
         .demo-panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 40px;
-            backdrop-filter: blur(20px);
-            min-height: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.5s ease;
-            margin-bottom: 40px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 24px; padding: 40px;
+            backdrop-filter: blur(20px); min-height: 500px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: all 0.5s ease; margin-bottom: 40px;
         }
 
-        /* Step 1: Upload */
+        /* Upload zone */
         .upload-zone {
-            width: 100%;
-            max-width: 480px;
-            border: 2px dashed rgba(0,212,170,0.3);
-            border-radius: 20px;
-            padding: 60px 40px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            width: 100%; max-width: 520px;
+            border: 2px dashed rgba(0,212,170,0.3); border-radius: 20px;
+            padding: 48px 32px; text-align: center; cursor: pointer; transition: all 0.3s;
         }
-
-        .upload-zone:hover {
-            border-color: var(--accent-teal);
-            background: rgba(0,212,170,0.05);
-            transform: translateY(-2px);
-        }
-
-        .upload-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .upload-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .upload-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
+        .upload-zone:hover { border-color: var(--accent-teal); background: rgba(0,212,170,0.05); transform: translateY(-2px); }
+        .upload-icon { font-size: 64px; margin-bottom: 16px; display: block; }
+        .upload-title { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+        .upload-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 24px; }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 28px; border-radius: 12px; font-size: 15px;
+            font-weight: 600; border: none; cursor: pointer; transition: all 0.3s; font-family: inherit;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, var(--accent-teal), #00b894);
-            color: #0a1628;
-            box-shadow: 0 4px 20px rgba(0,212,170,0.3);
+            color: #0a1628; box-shadow: 0 4px 20px rgba(0,212,170,0.3);
         }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,212,170,0.4); }
+        .btn-secondary { background: var(--glass); border: 1px solid var(--border); color: var(--text-primary); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.08); }
+        .btn-gold { background: linear-gradient(135deg, var(--accent-gold), #e09f24); color: #0a1628; box-shadow: 0 4px 20px rgba(244,185,66,0.3); }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(244,185,66,0.4); }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0,212,170,0.4);
-        }
-
-        .btn-secondary {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.08);
-        }
-
-        .sample-btns {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
+        .sample-btns { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
         .sample-btn {
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            background: rgba(244,185,66,0.1);
-            border: 1px solid rgba(244,185,66,0.2);
-            color: var(--accent-gold);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
+            padding: 10px 18px; border-radius: 10px; font-size: 13px;
+            background: rgba(244,185,66,0.1); border: 1px solid rgba(244,185,66,0.2);
+            color: var(--accent-gold); cursor: pointer; transition: all 0.3s; font-family: inherit;
         }
+        .sample-btn:hover { background: rgba(244,185,66,0.2); transform: translateY(-1px); }
+        .sample-btn.active-sample { background: rgba(244,185,66,0.25); border-color: var(--accent-gold); }
 
-        .sample-btn:hover {
-            background: rgba(244,185,66,0.2);
-            transform: translateY(-1px);
-        }
-
-        /* Step 2: Processing */
-        .processing-view {
-            text-align: center;
-            width: 100%;
-        }
-
+        /* Processing */
+        .processing-view { text-align: center; width: 100%; }
         .processing-animation {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent-teal);
-            animation: spin 1s linear infinite;
-            margin: 0 auto 24px;
-            position: relative;
+            width: 120px; height: 120px; border-radius: 50%;
+            border: 3px solid var(--border); border-top-color: var(--accent-teal);
+            animation: spin 1s linear infinite; margin: 0 auto 24px; position: relative;
         }
-
         .processing-animation::after {
-            content: '🔍';
-            font-size: 40px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 1.5s ease infinite;
+            content: '🔍'; font-size: 40px;
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); animation: pulse 1.5s ease infinite;
         }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
-        }
-
-        .processing-steps {
-            list-style: none;
-            text-align: left;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
+        .processing-steps { list-style: none; text-align: left; max-width: 400px; margin: 0 auto; }
         .processing-steps li {
-            padding: 10px 0;
-            font-size: 14px;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0.3;
-            transition: all 0.5s;
+            padding: 10px 0; font-size: 14px; color: var(--text-secondary);
+            display: flex; align-items: center; gap: 12px; opacity: 0.3; transition: all 0.5s;
         }
-
-        .processing-steps li.active {
-            color: var(--text-primary);
-            opacity: 1;
-        }
-
-        .processing-steps li.done {
-            color: var(--accent-teal);
-            opacity: 0.8;
-        }
-
+        .processing-steps li.active { color: var(--text-primary); opacity: 1; }
+        .processing-steps li.done { color: var(--accent-teal); opacity: 0.8; }
         .check-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            border: 2px solid currentColor;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            flex-shrink: 0;
+            width: 24px; height: 24px; border-radius: 50%;
+            border: 2px solid currentColor; display: flex; align-items: center;
+            justify-content: center; font-size: 12px; flex-shrink: 0;
         }
 
-        /* Step 3: OCR Result */
-        .ocr-result {
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-        }
-
-        @media (max-width: 768px) {
-            .ocr-result { grid-template-columns: 1fr; }
-            .demo-panel { padding: 24px; }
-        }
-
+        /* OCR Result */
+        .ocr-result { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         .ocr-original {
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid var(--border);
+            background: rgba(0,0,0,0.3); border-radius: 16px; padding: 20px; border: 1px solid var(--border);
         }
-
-        .ocr-original h3 {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .ocr-original h3, .ocr-extracted h3 {
+            font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
         }
-
         .invoice-preview {
-            background: #f8f5f0;
-            border-radius: 12px;
-            padding: 20px;
-            color: #333;
-            font-size: 13px;
-            line-height: 1.8;
+            background: #f8f5f0; border-radius: 12px; padding: 20px;
+            color: #333; font-size: 13px; line-height: 1.8;
         }
-
-        .invoice-preview .shop-name {
-            font-weight: 700;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 8px;
-            color: #1a1a1a;
-        }
-
-        .invoice-preview .divider {
-            border-top: 1px dashed #ccc;
-            margin: 8px 0;
-        }
-
-        .invoice-preview .item-row {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .ocr-extracted {
-            border-radius: 16px;
-            padding: 20px;
-        }
-
-        .ocr-extracted h3 {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .invoice-preview .shop-name { font-weight: 700; font-size: 16px; text-align: center; margin-bottom: 8px; color: #1a1a1a; }
+        .invoice-preview .divider { border-top: 1px dashed #ccc; margin: 8px 0; }
+        .invoice-preview .item-row { display: flex; justify-content: space-between; }
+        .ocr-extracted { border-radius: 16px; padding: 20px; }
         .extracted-field {
-            padding: 10px 14px;
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
+            padding: 10px 14px; background: var(--glass); border: 1px solid var(--border);
+            border-radius: 10px; margin-bottom: 8px;
+            display: flex; justify-content: space-between; align-items: center; transition: all 0.3s;
         }
-
-        .extracted-field:hover {
-            background: rgba(255,255,255,0.06);
-        }
-
-        .field-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .field-value {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .field-value.confident {
-            color: var(--accent-teal);
-        }
-
+        .extracted-field:hover { background: rgba(255,255,255,0.06); }
+        .field-label { font-size: 12px; color: var(--text-secondary); }
+        .field-value { font-size: 14px; font-weight: 600; }
+        .field-value.confident { color: var(--accent-teal); }
         .field-value.uncertain {
-            color: var(--accent-red);
-            text-decoration: underline wavy;
-            cursor: pointer;
-            position: relative;
+            color: var(--accent-red); text-decoration: underline wavy;
+            cursor: pointer; position: relative;
         }
-
         .field-value.uncertain::after {
-            content: '⚠️ Chạm để sửa';
-            font-size: 10px;
-            position: absolute;
-            right: 0;
-            top: -16px;
-            color: var(--accent-red);
-            white-space: nowrap;
-            text-decoration: none;
+            content: '⚠️ Chạm để sửa'; font-size: 10px;
+            position: absolute; right: 0; top: -16px;
+            color: var(--accent-red); white-space: nowrap; text-decoration: none;
         }
-
         .confidence-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 16px;
-            padding: 12px 16px;
-            background: rgba(0,212,170,0.08);
-            border-radius: 10px;
-            border: 1px solid rgba(0,212,170,0.15);
+            display: flex; align-items: center; gap: 8px; margin-top: 16px;
+            padding: 12px 16px; background: rgba(0,212,170,0.08);
+            border-radius: 10px; border: 1px solid rgba(0,212,170,0.15);
         }
-
-        .confidence-bar .bar {
-            flex: 1;
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
+        .confidence-bar .bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
         .confidence-bar .bar-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-gold), var(--accent-teal));
-            border-radius: 3px;
-            width: 87%;
-            transition: width 1s ease;
+            border-radius: 3px; width: 0%; transition: width 1.5s ease;
+        }
+        .actions-bar { display: flex; gap: 12px; margin-top: 24px; justify-content: center; flex-wrap: wrap; }
+
+        /* Receipt preview style */
+        .receipt-preview {
+            background: #fff; border-radius: 12px; padding: 20px;
+            color: #333; font-size: 13px; line-height: 1.8;
+            border: 2px solid #e0d4c0; position: relative;
+        }
+        .receipt-preview::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(transparent, transparent 28px, #e8e0d4 28px, #e8e0d4 29px);
+            pointer-events: none; border-radius: 12px; opacity: 0.4;
+        }
+        .receipt-preview .title { text-align: center; font-weight: 700; font-size: 15px; color: #333; margin-bottom: 12px; text-transform: uppercase; }
+
+        /* Handwriting style */
+        .handwrite-preview {
+            background: #fef9e7; border-radius: 12px; padding: 20px;
+            color: #333; font-size: 14px; line-height: 2;
+            font-family: 'Segoe Script', 'Brush Script MT', cursive;
+            border: 2px solid #d4c89e; position: relative;
+        }
+        .handwrite-preview::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(transparent, transparent 32px, #e8dfc0 32px, #e8dfc0 33px);
+            pointer-events: none; border-radius: 12px; opacity: 0.5;
         }
 
-        .actions-bar {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        /* Step 4: Financial Report */
-        .report-view {
-            width: 100%;
-        }
-
-        .report-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .report-header h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .report-header p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .report-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
+        /* Report */
+        .report-view { width: 100%; }
+        .report-header { text-align: center; margin-bottom: 32px; }
+        .report-header h2 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .report-header p { color: var(--text-secondary); font-size: 14px; }
+        .report-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 32px; }
         .stat-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s;
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 16px; padding: 20px; text-align: center; transition: all 0.3s;
         }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0,212,170,0.2);
-        }
-
-        .stat-card .stat-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .stat-card .stat-value {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .stat-card .stat-label {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
+        .stat-card:hover { transform: translateY(-4px); border-color: rgba(0,212,170,0.2); }
+        .stat-card .stat-icon { font-size: 28px; margin-bottom: 8px; }
+        .stat-card .stat-value { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+        .stat-card .stat-label { font-size: 12px; color: var(--text-secondary); }
         .stat-card:nth-child(1) .stat-value { color: var(--accent-teal); }
         .stat-card:nth-child(2) .stat-value { color: var(--accent-red); }
         .stat-card:nth-child(3) .stat-value { color: var(--accent-gold); }
         .stat-card:nth-child(4) .stat-value { color: var(--accent-blue); }
 
-        /* Chart area */
         .chart-container {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px; margin-bottom: 24px;
         }
+        .chart-title { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+        .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 180px; padding: 0 8px; }
+        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .bar-wrapper { display: flex; gap: 4px; align-items: flex-end; height: 150px; }
+        .bar { width: 20px; border-radius: 4px 4px 0 0; transition: height 1s ease; }
+        .bar.income { background: linear-gradient(to top, rgba(0,212,170,0.3), var(--accent-teal)); }
+        .bar.expense { background: linear-gradient(to top, rgba(255,77,106,0.3), var(--accent-red)); }
+        .bar-label { font-size: 11px; color: var(--text-secondary); }
+        .chart-legend { display: flex; gap: 24px; justify-content: center; margin-top: 16px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-        .chart-title {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .bar-chart {
-            display: flex;
-            align-items: flex-end;
-            gap: 12px;
-            height: 180px;
-            padding: 0 8px;
-        }
-
-        .bar-group {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .bar-wrapper {
-            display: flex;
-            gap: 4px;
-            align-items: flex-end;
-            height: 150px;
-        }
-
-        .bar {
-            width: 20px;
-            border-radius: 4px 4px 0 0;
-            transition: height 1s ease;
-        }
-
-        .bar.income {
-            background: linear-gradient(to top, rgba(0,212,170,0.3), var(--accent-teal));
-        }
-
-        .bar.expense {
-            background: linear-gradient(to top, rgba(255,77,106,0.3), var(--accent-red));
-        }
-
-        .bar-label {
-            font-size: 11px;
-            color: var(--text-secondary);
-        }
-
-        .chart-legend {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            margin-top: 16px;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .legend-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-
-        /* Transactions table */
-        .transactions {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-        }
-
-        .transactions table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .transactions th {
-            padding: 14px 16px;
-            text-align: left;
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-            border-bottom: 1px solid var(--border);
-            background: rgba(0,0,0,0.2);
-        }
-
-        .transactions td {
-            padding: 12px 16px;
-            font-size: 13px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .transactions tr:last-child td {
-            border-bottom: none;
-        }
-
-        .transactions tr:hover td {
-            background: rgba(255,255,255,0.02);
-        }
-
+        .transactions { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+        .transactions table { width: 100%; border-collapse: collapse; }
+        .transactions th { padding: 14px 16px; text-align: left; font-size: 12px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+        .transactions td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        .transactions tr:last-child td { border-bottom: none; }
+        .transactions tr:hover td { background: rgba(255,255,255,0.02); }
         .amount-in { color: var(--accent-teal); font-weight: 600; }
         .amount-out { color: var(--accent-red); font-weight: 600; }
+        .tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+        .tag-income { background: rgba(0,212,170,0.1); color: var(--accent-teal); }
+        .tag-expense { background: rgba(255,77,106,0.1); color: var(--accent-red); }
 
-        .tag {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 500;
+        /* Loan Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
         }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal {
+            background: var(--bg-secondary); border: 1px solid var(--border);
+            border-radius: 24px; padding: 40px; max-width: 580px; width: 90%;
+            transform: translateY(20px) scale(0.95); transition: transform 0.3s;
+        }
+        .modal-overlay.active .modal { transform: translateY(0) scale(1); }
+        .modal h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .modal p { color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; }
 
-        .tag-income {
-            background: rgba(0,212,170,0.1);
-            color: var(--accent-teal);
+        .loan-doc {
+            background: #fff; color: #333; border-radius: 12px;
+            padding: 24px; font-size: 12px; line-height: 1.7; margin-bottom: 24px;
+            max-height: 300px; overflow-y: auto; position: relative;
         }
+        .loan-doc h3 { font-size: 14px; text-align: center; margin-bottom: 12px; color: #111; }
+        .loan-doc table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        .loan-doc th, .loan-doc td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; font-size: 11px; }
+        .loan-doc th { background: #f5f5f5; font-weight: 600; }
+        .loan-doc .stamp {
+            position: absolute; bottom: 20px; right: 20px;
+            border: 3px solid #00a878; color: #00a878;
+            border-radius: 50%; width: 80px; height: 80px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: 700; text-align: center;
+            transform: rotate(-15deg); opacity: 0; transition: opacity 0.5s;
+        }
+        .loan-doc .stamp.visible { opacity: 0.7; }
 
-        .tag-expense {
-            background: rgba(255,77,106,0.1);
-            color: var(--accent-red);
+        .progress-bar-loan {
+            width: 100%; height: 8px; background: var(--border);
+            border-radius: 4px; overflow: hidden; margin-bottom: 16px;
         }
+        .progress-bar-loan .fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-gold));
+            border-radius: 4px; transition: width 2s ease;
+        }
+        .progress-text { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; text-align: center; }
+        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+
+        /* Pie chart */
+        .pie-section {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;
+        }
+        .pie-container {
+            background: var(--glass); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px; text-align: center;
+        }
+        .pie-svg { width: 160px; height: 160px; margin: 0 auto 16px; }
+        .pie-legend { display: flex; flex-direction: column; gap: 6px; }
+        .pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); }
+        .pie-color { width: 12px; height: 12px; border-radius: 3px; }
 
         /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
+        footer { text-align: center; padding: 40px 0; color: var(--text-secondary); font-size: 13px; }
+        footer a { color: var(--accent-teal); text-decoration: none; }
 
-        footer a {
-            color: var(--accent-teal);
-            text-decoration: none;
-        }
-
-        /* Hidden utility */
         .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.6s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .slide-up { animation: slideUp 0.5s ease forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Animations */
-        .fade-in {
-            animation: fadeIn 0.6s ease forwards;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .ocr-result { grid-template-columns: 1fr; }
+            .pie-section { grid-template-columns: 1fr; }
+            .demo-panel { padding: 20px; }
+            .report-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-card .stat-value { font-size: 20px; }
+            .modal { padding: 24px; }
+            .loan-doc { max-height: 200px; }
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .slide-up {
-            animation: slideUp 0.5s ease forwards;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .demo-panel { padding: 16px; border-radius: 16px; }
+            .upload-zone { padding: 32px 16px; }
+            .report-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .stat-card { padding: 12px; }
+            .stat-card .stat-value { font-size: 18px; }
+            .bar-chart { height: 140px; }
+            .bar-wrapper { height: 110px; }
+            .actions-bar { flex-direction: column; align-items: stretch; }
+            .btn { justify-content: center; }
+            .step-labels { gap: 12px; }
+            .steps-bar { gap: 3px; }
+            .step-dot { width: 36px; }
         }
     </style>
 </head>
@@ -745,14 +404,12 @@
                     <span class="upload-icon">📸</span>
                     <div class="upload-title">Chụp ảnh hoặc tải lên hóa đơn</div>
                     <div class="upload-desc">Hỗ trợ: hóa đơn in, phiếu thu chi, sổ sách viết tay</div>
-                    <button class="btn btn-primary" id="uploadBtn">
-                        📷 Chọn ảnh từ máy
-                    </button>
+                    <button class="btn btn-primary" id="uploadBtn">📷 Chọn ảnh từ máy</button>
                     <input type="file" id="fileInput" accept="image/*" style="display:none">
                     <div class="sample-btns">
-                        <button class="sample-btn" onclick="useSample('invoice')">🧾 Hóa đơn mẫu</button>
-                        <button class="sample-btn" onclick="useSample('receipt')">📃 Phiếu thu mẫu</button>
-                        <button class="sample-btn" onclick="useSample('handwrite')">✍️ Sổ viết tay mẫu</button>
+                        <button class="sample-btn" onclick="useSample('invoice')">🧾 Hóa đơn bán hàng</button>
+                        <button class="sample-btn" onclick="useSample('receipt')">📃 Phiếu thu tiền</button>
+                        <button class="sample-btn" onclick="useSample('handwrite')">✍️ Sổ viết tay</button>
                     </div>
                 </div>
             </div>
@@ -774,62 +431,7 @@
 
             <!-- Step 3: OCR Result -->
             <div id="step3" class="hidden">
-                <div class="ocr-result fade-in">
-                    <div class="ocr-original">
-                        <h3>📸 Ảnh gốc</h3>
-                        <div class="invoice-preview">
-                            <div class="shop-name">CỬA HÀNG MUỐI TÔM BA THÀNH</div>
-                            <div style="text-align:center; font-size:12px; color:#666;">123 Nguyễn Huệ, Tây Ninh</div>
-                            <div class="divider"></div>
-                            <div style="text-align:center; font-size:12px; margin-bottom:8px;">HÓA ĐƠN BÁN HÀNG</div>
-                            <div class="divider"></div>
-                            <div class="item-row"><span>Muối tôm loại 1 (x5)</span><span>250.000</span></div>
-                            <div class="item-row"><span>Bánh tráng phơi sương (x10)</span><span>350.000</span></div>
-                            <div class="item-row"><span>Nhang thơm bó lớn (x3)</span><span>135.000</span></div>
-                            <div class="item-row"><span>Muối ớt đặc biệt (x8)</span><span>200.000</span></div>
-                            <div class="divider"></div>
-                            <div class="item-row" style="font-weight:700;"><span>TỔNG CỘNG</span><span>935.000đ</span></div>
-                            <div class="divider"></div>
-                            <div style="font-size:11px; color:#888; text-align:center;">Ngày: 20/06/2026 | Nhân viên: Lan</div>
-                        </div>
-                    </div>
-                    <div class="ocr-extracted">
-                        <h3>🤖 AI bóc tách</h3>
-                        <div class="extracted-field">
-                            <span class="field-label">Cửa hàng</span>
-                            <span class="field-value confident">Muối Tôm Ba Thành</span>
-                        </div>
-                        <div class="extracted-field">
-                            <span class="field-label">Ngày</span>
-                            <span class="field-value confident">20/06/2026</span>
-                        </div>
-                        <div class="extracted-field">
-                            <span class="field-label">Muối tôm loại 1 (x5)</span>
-                            <span class="field-value confident">250.000đ</span>
-                        </div>
-                        <div class="extracted-field">
-                            <span class="field-label">Bánh tráng (x10)</span>
-                            <span class="field-value confident">350.000đ</span>
-                        </div>
-                        <div class="extracted-field">
-                            <span class="field-label">Nhang thơm (x3)</span>
-                            <span class="field-value uncertain" title="AI confidence: 72% - Có thể là 135.000 hoặc 185.000">185.000đ</span>
-                        </div>
-                        <div class="extracted-field">
-                            <span class="field-label">Muối ớt (x8)</span>
-                            <span class="field-value confident">200.000đ</span>
-                        </div>
-                        <div class="extracted-field" style="border-color: rgba(0,212,170,0.2);">
-                            <span class="field-label" style="font-weight:600;">TỔNG CỘNG</span>
-                            <span class="field-value confident" style="font-size:18px;">935.000đ</span>
-                        </div>
-                        <div class="confidence-bar">
-                            <span style="font-size:12px;">🎯 Độ chính xác:</span>
-                            <div class="bar"><div class="bar-fill"></div></div>
-                            <span style="font-size:13px; font-weight:700; color: var(--accent-teal);">87%</span>
-                        </div>
-                    </div>
-                </div>
+                <div class="ocr-result fade-in" id="ocrResult"></div>
                 <div class="actions-bar">
                     <button class="btn btn-secondary" onclick="goToStep(1)">← Chụp lại</button>
                     <button class="btn btn-primary" onclick="goToStep(4)">✅ Xác nhận & Lưu sổ sách →</button>
@@ -867,34 +469,36 @@
                         </div>
                     </div>
 
-                    <div class="chart-container slide-up" style="animation-delay: 0.4s;">
-                        <div class="chart-title">📉 Thu Chi theo tuần — Tháng 06/2026</div>
-                        <div class="bar-chart" id="barChart"></div>
-                        <div class="chart-legend">
-                            <div class="legend-item"><div class="legend-dot" style="background: var(--accent-teal);"></div> Thu nhập</div>
-                            <div class="legend-item"><div class="legend-dot" style="background: var(--accent-red);"></div> Chi phí</div>
+                    <div class="pie-section">
+                        <div class="chart-container slide-up" style="animation-delay: 0.4s;">
+                            <div class="chart-title">📉 Thu Chi theo tuần — Tháng 06/2026</div>
+                            <div class="bar-chart" id="barChart"></div>
+                            <div class="chart-legend">
+                                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-teal);"></div> Thu nhập</div>
+                                <div class="legend-item"><div class="legend-dot" style="background: var(--accent-red);"></div> Chi phí</div>
+                            </div>
+                        </div>
+
+                        <div class="pie-container slide-up" style="animation-delay: 0.5s;">
+                            <div class="chart-title">🥧 Phân bổ chi tiêu</div>
+                            <svg class="pie-svg" viewBox="0 0 36 36" id="pieChart">
+                                <circle cx="18" cy="18" r="15.9" fill="none" stroke="var(--border)" stroke-width="3.8"/>
+                            </svg>
+                            <div class="pie-legend" id="pieLegend"></div>
                         </div>
                     </div>
 
-                    <div class="transactions slide-up" style="animation-delay: 0.5s;">
+                    <div class="transactions slide-up" style="animation-delay: 0.6s;">
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>Ngày</th>
-                                    <th>Mô tả</th>
-                                    <th>Loại</th>
-                                    <th style="text-align:right;">Số tiền</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>Ngày</th><th>Mô tả</th><th>Loại</th><th style="text-align:right;">Số tiền</th></tr></thead>
                             <tbody id="transactionTable"></tbody>
                         </table>
                     </div>
 
                     <div class="actions-bar" style="margin-top: 24px;">
                         <button class="btn btn-secondary" onclick="goToStep(1)">📸 Chụp thêm hóa đơn</button>
-                        <button class="btn btn-primary" onclick="alert('📄 Đã xuất file PDF chuẩn ngân hàng!')">
-                            📄 Xuất PDF chuẩn ngân hàng
-                        </button>
+                        <button class="btn btn-gold" onclick="openLoanModal()">🏦 Xuất hồ sơ vay vốn</button>
+                        <button class="btn btn-primary" onclick="exportPDF()">📄 Xuất PDF báo cáo</button>
                     </div>
                 </div>
             </div>
@@ -906,18 +510,140 @@
         </footer>
     </div>
 
+    <!-- Loan Export Modal -->
+    <div class="modal-overlay" id="loanModal">
+        <div class="modal">
+            <h2>🏦 Xuất Hồ sơ Vay vốn</h2>
+            <p>AI đang tổng hợp báo cáo tài chính chuẩn ngân hàng...</p>
+            <div class="progress-bar-loan"><div class="fill" id="loanProgress"></div></div>
+            <div class="progress-text" id="loanStatus">Đang chuẩn bị dữ liệu...</div>
+            <div class="loan-doc" id="loanDoc">
+                <h3>BÁO CÁO TÀI CHÍNH<br><span style="font-size:11px;font-weight:400;">Phục vụ hồ sơ vay vốn Ngân hàng</span></h3>
+                <p><strong>Đơn vị:</strong> Cửa hàng Muối Tôm Ba Thành</p>
+                <p><strong>Địa chỉ:</strong> 123 Nguyễn Huệ, TP. Tây Ninh</p>
+                <p><strong>Kỳ báo cáo:</strong> 01/06/2026 — 30/06/2026</p>
+                <table>
+                    <thead><tr><th>Khoản mục</th><th>Số tiền</th></tr></thead>
+                    <tbody>
+                        <tr><td>Tổng doanh thu</td><td>18.500.000đ</td></tr>
+                        <tr><td>Tổng chi phí</td><td>12.200.000đ</td></tr>
+                        <tr><td><strong>Lợi nhuận ròng</strong></td><td><strong>6.300.000đ</strong></td></tr>
+                        <tr><td>Tỷ suất lợi nhuận</td><td>34%</td></tr>
+                        <tr><td>Số giao dịch</td><td>47 hóa đơn</td></tr>
+                        <tr><td>Doanh thu TB/ngày</td><td>617.000đ</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top:12px;font-size:10px;color:#888;">Báo cáo được AI tổng hợp tự động từ 47 hóa đơn đã xử lý. Đã xác thực bởi chủ cửa hàng.</p>
+                <div class="stamp" id="loanStamp">XÁC NHẬN<br>ĐẠT CHUẨN</div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeLoanModal()">Đóng</button>
+                <button class="btn btn-primary" id="loanDownloadBtn" style="opacity:0.5;pointer-events:none;">📥 Tải file PDF</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let currentStep = 1;
+        let currentSample = 'invoice';
+
+        // Sample data for 3 types
+        const sampleData = {
+            invoice: {
+                original: `
+                    <h3>📸 Ảnh hóa đơn gốc</h3>
+                    <div class="invoice-preview">
+                        <div class="shop-name">CỬA HÀNG MUỐI TÔM BA THÀNH</div>
+                        <div style="text-align:center; font-size:12px; color:#666;">123 Nguyễn Huệ, Tây Ninh</div>
+                        <div class="divider"></div>
+                        <div style="text-align:center; font-size:12px; margin-bottom:8px;">HÓA ĐƠN BÁN HÀNG</div>
+                        <div class="divider"></div>
+                        <div class="item-row"><span>Muối tôm loại 1 (x5)</span><span>250.000</span></div>
+                        <div class="item-row"><span>Bánh tráng phơi sương (x10)</span><span>350.000</span></div>
+                        <div class="item-row"><span>Nhang thơm bó lớn (x3)</span><span>135.000</span></div>
+                        <div class="item-row"><span>Muối ớt đặc biệt (x8)</span><span>200.000</span></div>
+                        <div class="divider"></div>
+                        <div class="item-row" style="font-weight:700;"><span>TỔNG CỘNG</span><span>935.000đ</span></div>
+                        <div class="divider"></div>
+                        <div style="font-size:11px; color:#888; text-align:center;">Ngày: 20/06/2026 | Nhân viên: Lan</div>
+                    </div>`,
+                extracted: [
+                    { label: 'Cửa hàng', value: 'Muối Tôm Ba Thành', type: 'confident' },
+                    { label: 'Ngày', value: '20/06/2026', type: 'confident' },
+                    { label: 'Muối tôm loại 1 (x5)', value: '250.000đ', type: 'confident' },
+                    { label: 'Bánh tráng (x10)', value: '350.000đ', type: 'confident' },
+                    { label: 'Nhang thơm (x3)', value: '185.000đ', type: 'uncertain', title: 'AI confidence: 72% - Có thể là 135.000 hoặc 185.000' },
+                    { label: 'Muối ớt (x8)', value: '200.000đ', type: 'confident' },
+                    { label: 'TỔNG CỘNG', value: '935.000đ', type: 'total' },
+                ],
+                confidence: 87
+            },
+            receipt: {
+                original: `
+                    <h3>📸 Phiếu thu gốc</h3>
+                    <div class="receipt-preview">
+                        <div class="title">PHIẾU THU TIỀN</div>
+                        <div style="position:relative;z-index:1;">
+                        <p><strong>Số phiếu:</strong> PT-2026/068</p>
+                        <p><strong>Ngày:</strong> 22/06/2026</p>
+                        <p><strong>Người nộp:</strong> Chị Ngọc — Chợ Tây Ninh</p>
+                        <p><strong>Nội dung:</strong> Thu tiền đặt hàng combo quà đặc sản</p>
+                        <div class="divider" style="border-top:1px dashed #ccc;margin:12px 0;"></div>
+                        <p>- 10 hộp combo (muối+bánh tráng): <strong>1.500.000đ</strong></p>
+                        <p>- Phí đóng gói: <strong>100.000đ</strong></p>
+                        <p>- Phí ship CoD: <strong>50.000đ</strong></p>
+                        <div class="divider" style="border-top:1px dashed #ccc;margin:12px 0;"></div>
+                        <p style="font-weight:700;font-size:15px;">TỔNG THU: 1.650.000đ</p>
+                        <p style="font-size:11px;color:#888;">Đã nhận đủ tiền mặt. Ký nhận: Ba Thành</p>
+                        </div>
+                    </div>`,
+                extracted: [
+                    { label: 'Số phiếu', value: 'PT-2026/068', type: 'confident' },
+                    { label: 'Ngày', value: '22/06/2026', type: 'confident' },
+                    { label: 'Người nộp', value: 'Chị Ngọc — Chợ TN', type: 'confident' },
+                    { label: '10 hộp combo', value: '1.500.000đ', type: 'confident' },
+                    { label: 'Phí đóng gói', value: '100.000đ', type: 'confident' },
+                    { label: 'Phí ship', value: '50.000đ', type: 'uncertain', title: 'AI confidence: 65% - Chữ viết tay khó đọc, có thể 50k hoặc 80k' },
+                    { label: 'TỔNG THU', value: '1.650.000đ', type: 'total' },
+                ],
+                confidence: 91
+            },
+            handwrite: {
+                original: `
+                    <h3>📸 Sổ viết tay gốc</h3>
+                    <div class="handwrite-preview">
+                        <div style="position:relative;z-index:1;">
+                        <p style="text-align:center;font-size:16px;margin-bottom:8px;"><u>Sổ bán hàng ngày 21/6</u></p>
+                        <p>- Sáng: Bán 3kg muối tôm @ 80k = <strong>240k</strong></p>
+                        <p>- Trưa: Chị Hai mua 5 xấp bánh tráng = <strong>175k</strong></p>
+                        <p>- Chiều: Anh Tư lấy 2 bó nhang lớn = <strong>90k</strong></p>
+                        <p>- Chiều: Mua thêm bột tôm 2kg = <strong>-120k</strong></p>
+                        <p>- Tối: Thu nợ cũ chú Ba = <strong>300k</strong></p>
+                        <p style="margin-top:8px;border-top:1px solid #c0a060;padding-top:8px;">
+                            <strong>Tổng thu: 805k | Chi: 120k</strong>
+                        </p>
+                        </div>
+                    </div>`,
+                extracted: [
+                    { label: 'Ngày ghi sổ', value: '21/06/2026', type: 'confident' },
+                    { label: 'Muối tôm 3kg', value: '240.000đ', type: 'confident' },
+                    { label: 'Bánh tráng 5 xấp', value: '175.000đ', type: 'confident' },
+                    { label: 'Nhang lớn 2 bó', value: '90.000đ', type: 'uncertain', title: 'AI confidence: 68% - Chữ viết tay khó đọc, 90k hoặc 96k' },
+                    { label: 'Mua bột tôm 2kg', value: '-120.000đ', type: 'confident' },
+                    { label: 'Thu nợ chú Ba', value: '300.000đ', type: 'uncertain', title: 'AI confidence: 74% - Có thể 300k hoặc 500k' },
+                    { label: 'TỔNG NGÀY', value: '685.000đ', type: 'total' },
+                ],
+                confidence: 78
+            }
+        };
 
         // Upload handling
         document.getElementById('uploadBtn').addEventListener('click', () => {
             document.getElementById('fileInput').click();
         });
-
         document.getElementById('fileInput').addEventListener('change', (e) => {
-            if (e.target.files.length > 0) startProcessing();
+            if (e.target.files.length > 0) { currentSample = 'invoice'; startProcessing(); }
         });
-
         document.getElementById('uploadZone').addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && !e.target.closest('.sample-btns')) {
                 document.getElementById('fileInput').click();
@@ -925,12 +651,25 @@
         });
 
         function useSample(type) {
+            currentSample = type;
+            document.querySelectorAll('.sample-btn').forEach(b => b.classList.remove('active-sample'));
+            event.target.classList.add('active-sample');
             startProcessing();
         }
 
         function startProcessing() {
             goToStep(2);
+            resetProcessing();
             animateProcessing();
+        }
+
+        function resetProcessing() {
+            document.querySelectorAll('#processingSteps li').forEach(li => {
+                li.classList.remove('active', 'done');
+                li.querySelector('.check-icon').textContent = li.querySelector('.check-icon').textContent.replace('✓', '');
+            });
+            const steps = document.querySelectorAll('#processingSteps li');
+            steps.forEach((s, i) => s.querySelector('.check-icon').textContent = (i + 1).toString());
         }
 
         function animateProcessing() {
@@ -947,49 +686,74 @@
                     i++;
                 } else {
                     clearInterval(interval);
-                    setTimeout(() => goToStep(3), 600);
+                    setTimeout(() => {
+                        renderOCR(currentSample);
+                        goToStep(3);
+                    }, 600);
                 }
             }, 800);
         }
 
-        function goToStep(step) {
-            // Hide current
-            document.getElementById('step' + currentStep).classList.add('hidden');
+        function renderOCR(type) {
+            const data = sampleData[type];
+            const container = document.getElementById('ocrResult');
 
-            // Update dots
+            let extractedHTML = '<h3>🤖 AI bóc tách</h3>';
+            data.extracted.forEach(f => {
+                if (f.type === 'total') {
+                    extractedHTML += `<div class="extracted-field" style="border-color: rgba(0,212,170,0.2);">
+                        <span class="field-label" style="font-weight:600;">${f.label}</span>
+                        <span class="field-value confident" style="font-size:18px;">${f.value}</span>
+                    </div>`;
+                } else {
+                    extractedHTML += `<div class="extracted-field">
+                        <span class="field-label">${f.label}</span>
+                        <span class="field-value ${f.type}" ${f.title ? `title="${f.title}"` : ''}>${f.value}</span>
+                    </div>`;
+                }
+            });
+            extractedHTML += `<div class="confidence-bar">
+                <span style="font-size:12px;">🎯 Độ chính xác:</span>
+                <div class="bar"><div class="bar-fill" id="confFill"></div></div>
+                <span style="font-size:13px; font-weight:700; color: var(--accent-teal);">${data.confidence}%</span>
+            </div>`;
+
+            container.innerHTML = `
+                <div class="ocr-original">${data.original}</div>
+                <div class="ocr-extracted">${extractedHTML}</div>
+            `;
+
+            // Animate confidence bar
+            setTimeout(() => {
+                const fill = document.getElementById('confFill');
+                if (fill) fill.style.width = data.confidence + '%';
+            }, 300);
+        }
+
+        function goToStep(step) {
+            document.getElementById('step' + currentStep).classList.add('hidden');
             document.querySelectorAll('.step-dot').forEach((dot, idx) => {
                 dot.classList.remove('active', 'done');
                 if (idx + 1 < step) dot.classList.add('done');
                 if (idx + 1 === step) dot.classList.add('active');
             });
-
             document.querySelectorAll('.step-label').forEach((label, idx) => {
                 label.classList.remove('active');
                 if (idx + 1 === step) label.classList.add('active');
             });
-
-            // Show new step
             currentStep = step;
             const el = document.getElementById('step' + step);
             el.classList.remove('hidden');
-
-            // Animate report
-            if (step === 4) {
-                setTimeout(animateReport, 300);
-            }
+            if (step === 4) setTimeout(animateReport, 300);
         }
 
         function animateReport() {
-            // Animate counters
             animateCounter('totalIncome', 18500000, '₫');
             animateCounter('totalExpense', 12200000, '₫');
             animateCounter('profit', 6300000, '₫');
             animateCounter('invoiceCount', 47, '');
-
-            // Build chart
             buildChart();
-
-            // Build transactions
+            buildPieChart();
             buildTransactions();
         }
 
@@ -999,15 +763,10 @@
             const step = target / 40;
             const timer = setInterval(() => {
                 current += step;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                if (suffix === '₫') {
-                    el.textContent = Math.round(current).toLocaleString('vi-VN') + 'đ';
-                } else {
-                    el.textContent = Math.round(current);
-                }
+                if (current >= target) { current = target; clearInterval(timer); }
+                el.textContent = suffix === '₫'
+                    ? Math.round(current).toLocaleString('vi-VN') + 'đ'
+                    : Math.round(current);
             }, 30);
         }
 
@@ -1017,44 +776,67 @@
             const income = [3800000, 5200000, 4800000, 4700000];
             const expense = [2800000, 3500000, 3100000, 2800000];
             const maxVal = Math.max(...income, ...expense);
-
             chart.innerHTML = '';
             weeks.forEach((w, i) => {
                 const group = document.createElement('div');
                 group.className = 'bar-group';
                 const wrapper = document.createElement('div');
                 wrapper.className = 'bar-wrapper';
-
                 const incBar = document.createElement('div');
                 incBar.className = 'bar income';
                 incBar.style.height = '0px';
-                setTimeout(() => {
-                    incBar.style.height = (income[i] / maxVal * 140) + 'px';
-                }, 100 + i * 100);
-
+                setTimeout(() => { incBar.style.height = (income[i] / maxVal * 140) + 'px'; }, 100 + i * 100);
                 const expBar = document.createElement('div');
                 expBar.className = 'bar expense';
                 expBar.style.height = '0px';
-                setTimeout(() => {
-                    expBar.style.height = (expense[i] / maxVal * 140) + 'px';
-                }, 200 + i * 100);
-
+                setTimeout(() => { expBar.style.height = (expense[i] / maxVal * 140) + 'px'; }, 200 + i * 100);
                 wrapper.appendChild(incBar);
                 wrapper.appendChild(expBar);
-
                 const label = document.createElement('div');
                 label.className = 'bar-label';
                 label.textContent = w;
-
                 group.appendChild(wrapper);
                 group.appendChild(label);
                 chart.appendChild(group);
             });
         }
 
+        function buildPieChart() {
+            const svg = document.getElementById('pieChart');
+            const legend = document.getElementById('pieLegend');
+            const data = [
+                { label: 'Nguyên liệu', pct: 38, color: '#ff4d6a' },
+                { label: 'Nhân công', pct: 25, color: '#f4b942' },
+                { label: 'Điện/Nước', pct: 15, color: '#4d8bff' },
+                { label: 'Đóng gói', pct: 12, color: '#00d4aa' },
+                { label: 'Khác', pct: 10, color: '#8b5cf6' },
+            ];
+            let offset = 25;
+            svg.innerHTML = '<circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3.8"/>';
+            legend.innerHTML = '';
+            data.forEach((d, i) => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', '18');
+                circle.setAttribute('cy', '18');
+                circle.setAttribute('r', '15.9');
+                circle.setAttribute('fill', 'none');
+                circle.setAttribute('stroke', d.color);
+                circle.setAttribute('stroke-width', '3.8');
+                circle.setAttribute('stroke-dasharray', `${d.pct} ${100 - d.pct}`);
+                circle.setAttribute('stroke-dashoffset', String(offset));
+                circle.style.transition = 'stroke-dasharray 1s ease';
+                svg.appendChild(circle);
+                offset -= d.pct;
+                legend.innerHTML += `<div class="pie-legend-item"><div class="pie-color" style="background:${d.color}"></div>${d.label} (${d.pct}%)</div>`;
+            });
+        }
+
         function buildTransactions() {
             const table = document.getElementById('transactionTable');
             const data = [
+                { date: '22/06', desc: 'Combo quà đặc sản (Chị Ngọc)', type: 'income', amount: 1650000 },
+                { date: '21/06', desc: 'Bán muối tôm, bánh tráng, nhang', type: 'income', amount: 805000 },
+                { date: '21/06', desc: 'Mua bột tôm 2kg', type: 'expense', amount: 120000 },
                 { date: '20/06', desc: 'Bán muối tôm, bánh tráng, nhang', type: 'income', amount: 935000 },
                 { date: '19/06', desc: 'Nhập nguyên liệu tôm khô', type: 'expense', amount: 450000 },
                 { date: '18/06', desc: 'Bán muối ớt + bánh tráng', type: 'income', amount: 680000 },
@@ -1062,7 +844,6 @@
                 { date: '16/06', desc: 'Bán combo quà đặc sản', type: 'income', amount: 1200000 },
                 { date: '15/06', desc: 'Thuê nhân công đóng gói', type: 'expense', amount: 500000 },
             ];
-
             table.innerHTML = data.map(d => `
                 <tr>
                     <td>${d.date}</td>
@@ -1074,6 +855,56 @@
                 </tr>
             `).join('');
         }
+
+        // Loan Modal
+        function openLoanModal() {
+            const modal = document.getElementById('loanModal');
+            const progress = document.getElementById('loanProgress');
+            const status = document.getElementById('loanStatus');
+            const stamp = document.getElementById('loanStamp');
+            const downloadBtn = document.getElementById('loanDownloadBtn');
+
+            modal.classList.add('active');
+            progress.style.width = '0%';
+            stamp.classList.remove('visible');
+            downloadBtn.style.opacity = '0.5';
+            downloadBtn.style.pointerEvents = 'none';
+
+            const steps = [
+                { pct: 25, text: '📂 Thu thập dữ liệu từ 47 hóa đơn...' },
+                { pct: 50, text: '📊 Tổng hợp bảng thu chi, lãi lỗ...' },
+                { pct: 75, text: '📝 Định dạng chuẩn ngân hàng...' },
+                { pct: 100, text: '✅ Hoàn thành! Hồ sơ đã sẵn sàng.' },
+            ];
+
+            steps.forEach((s, i) => {
+                setTimeout(() => {
+                    progress.style.width = s.pct + '%';
+                    status.textContent = s.text;
+                    if (i === steps.length - 1) {
+                        stamp.classList.add('visible');
+                        downloadBtn.style.opacity = '1';
+                        downloadBtn.style.pointerEvents = 'all';
+                        downloadBtn.onclick = () => {
+                            alert('📥 Đã tải file: BaoCaoTaiChinh_BaThành_062026.pdf\n\nFile PDF chuẩn ngân hàng đã được lưu vào thiết bị.');
+                        };
+                    }
+                }, 600 * (i + 1));
+            });
+        }
+
+        function closeLoanModal() {
+            document.getElementById('loanModal').classList.remove('active');
+        }
+
+        function exportPDF() {
+            alert('📄 Đã xuất file: BaoCaoThangTu_062026.pdf\n\nBáo cáo tài chính tháng 06/2026 đã được lưu.');
+        }
+
+        // Close modal on overlay click
+        document.getElementById('loanModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeLoanModal();
+        });
     </script>
 </body>
 </html>
