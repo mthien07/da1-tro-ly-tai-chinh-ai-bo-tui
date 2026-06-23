@@ -370,6 +370,33 @@
             .step-labels { gap: 12px; }
             .steps-bar { gap: 3px; }
             .step-dot { width: 36px; }
+        }        /* 📱 Mobile Responsiveness & Performance */
+        @media (max-width: 768px) {
+            h1 { font-size: clamp(24px, 6vw, 32px); }
+            .demo-panel { 
+                padding: 20px; 
+                backdrop-filter: none !important; 
+                -webkit-backdrop-filter: none !important; 
+                background: var(--bg-secondary); 
+                border-radius: 16px;
+            }
+            .logo-badge { backdrop-filter: none; -webkit-backdrop-filter: none; }
+            .step-labels { gap: 8px; }
+            .step-label { font-size: 10px; }
+            .upload-zone { padding: 32px 16px; }
+            .ocr-result { grid-template-columns: 1fr; gap: 16px; }
+            .ocr-original, .ocr-extracted { padding: 16px; }
+            .actions-bar { flex-direction: column; width: 100%; }
+            .actions-bar .btn { width: 100%; justify-content: center; }
+            .report-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .report-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* 🚀 Hardware Acceleration */
+        .step-dot, .stat-card, .btn, .processing-animation {
+            will-change: transform;
         }
     </style>
 </head>
