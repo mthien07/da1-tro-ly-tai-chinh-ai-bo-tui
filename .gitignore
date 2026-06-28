@@ -3,3 +3,13 @@ node_modules/
 dist/
 build/
 *.log
+venv/
+__pycache__/
+*.pyc
+*.local
+credential*.json
+credentials*.json
+
+.env
+.env.*
+!.env.sample

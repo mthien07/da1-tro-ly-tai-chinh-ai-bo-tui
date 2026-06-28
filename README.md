@@ -83,12 +83,56 @@ open demo/index.html
 
 > 💡 Demo web là bản mô phỏng tương tác đầy đủ, chạy trực tiếp trên trình duyệt mà không cần backend.
 
+## 🧪 Chạy MVP local
+
+### Backend FastAPI
+
+```bash
+cd backend
+python3 -m venv venv
+venv/bin/pip install -r requirements.txt
+venv/bin/uvicorn main:app --reload
+```
+
+Kiểm tra nhanh:
+
+```bash
+curl http://127.0.0.1:8000/health
+curl -H "Authorization: Bearer <supabase_access_token>" \
+  "http://127.0.0.1:8000/api/v1/reports/summary?date_from=2026-06-01&date_to=2026-06-30"
+```
+
+Các biến cấu hình backend: `SUPABASE_URL`, `SUPABASE_KEY`, `SUPABASE_SERVICE_KEY`, `GOOGLE_APPLICATION_CREDENTIALS`, `GEMINI_API_KEY`.
+
+Nếu chưa cấu hình Google Vision hoặc Gemini, backend trả mock OCR/parser để demo flow chụp hoá đơn vẫn chạy được.
+
+Các endpoint tài chính (`transactions`, `reports`) yêu cầu Supabase access token. Backend lấy `user_id` từ token, không tin `user_id` client gửi lên.
+
+### Mobile Expo
+
+```bash
+cd mobile
+npm install
+npx tsc --noEmit
+npx expo start
+```
+
+Các biến cấu hình mobile: `EXPO_PUBLIC_API_URL`, `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY`.
+
 ## 📁 Cấu trúc dự án
 
 ```
 da1-tro-ly-tai-chinh-ai-bo-tui/
 ├── demo/
 │   └── index.html          # Web demo tương tác (OCR → Báo cáo)
+├── backend/
+│   ├── main.py             # FastAPI app
+│   ├── app/                # API endpoints, config, services
+│   ├── requirements.txt    # Python dependencies
+│   └── supabase/           # Migration SQL
+├── mobile/
+│   ├── app/                # Expo Router entrypoints
+│   └── src/                # Screens, API client, auth context
 ├── docs/
 │   ├── m02-m03-ho-so-du-thi.md  # Hồ sơ dự thi M-02 & M-03
 │   ├── pitch-deck.md            # Pitch Deck (10 slides)
