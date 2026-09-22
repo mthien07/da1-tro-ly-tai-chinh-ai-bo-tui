@@ -386,57 +386,122 @@
         .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); }
         .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-        .transactions { background: var(--glass); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
-        .transactions table { width: 100%; border-collapse: collapse; }
-        .transactions th { padding: 14px 16px; text-align: left; font-size: 12px; color: var(--text-secondary); font-weight: 500; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
-        .transactions td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        .transactions { 
+            background: var(--glass); 
+            border: 1px solid var(--border); 
+            border-radius: 16px; 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; 
+        }
+        .transactions table { 
+            width: 100%; 
+            min-width: 480px; 
+            border-collapse: collapse; 
+        }
+        .transactions th { 
+            padding: 14px 16px; 
+            text-align: left; 
+            font-size: 12px; 
+            color: var(--text-secondary); 
+            font-weight: 500; 
+            border-bottom: 1px solid var(--border); 
+            background: rgba(0,0,0,0.25); 
+            white-space: nowrap; 
+        }
+        .transactions td { 
+            padding: 12px 16px; 
+            font-size: 13px; 
+            border-bottom: 1px solid var(--border); 
+            white-space: nowrap; 
+        }
         .transactions tr:last-child td { border-bottom: none; }
-        .transactions tr:hover td { background: rgba(255,255,255,0.02); }
+        .transactions tr:hover td { background: rgba(255,255,255,0.03); }
         .amount-in { color: var(--accent-teal); font-weight: 600; }
         .amount-out { color: var(--accent-red); font-weight: 600; }
-        .tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
-        .tag-income { background: rgba(0,212,170,0.1); color: var(--accent-teal); }
-        .tag-expense { background: rgba(255,77,106,0.1); color: var(--accent-red); }
+        .tag { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; display: inline-block; }
+        .tag-income { background: rgba(0,212,170,0.12); color: var(--accent-teal); }
+        .tag-expense { background: rgba(255,77,106,0.12); color: var(--accent-red); }
 
-        /* Loan Modal */
+        .match-badge {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 100px;
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--accent-teal);
+            border: 1px solid rgba(0, 212, 170, 0.35);
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        /* Modal Base */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 1000; display: flex; align-items: center; justify-content: center;
             opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            padding: 16px; box-sizing: border-box;
         }
         .modal-overlay.active { opacity: 1; pointer-events: all; }
         .modal {
             background: var(--bg-secondary); border: 1px solid var(--border);
-            border-radius: 24px; padding: 40px; max-width: 580px; width: 90%;
+            border-radius: 24px; padding: 32px; max-width: 540px; width: 100%;
+            max-height: min(92vh, 720px); overflow-y: auto; -webkit-overflow-scrolling: touch;
             transform: translateY(20px) scale(0.95); transition: transform 0.3s;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6); box-sizing: border-box;
         }
         .modal-overlay.active .modal { transform: translateY(0) scale(1); }
-        .modal h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-        .modal p { color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; }
+        .modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .modal p { color: var(--text-secondary); font-size: 14px; margin-bottom: 20px; }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 24px;
+            cursor: pointer;
+            min-width: 44px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            line-height: 1;
+            transition: all 0.2s;
+            touch-action: manipulation;
+            padding: 0;
+            margin: -6px -6px 0 0;
+        }
+        .modal-close-btn:hover, .modal-close-btn:active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
 
         .loan-doc {
             background: #fff; color: #333; border-radius: 12px;
-            padding: 24px; font-size: 12px; line-height: 1.7; margin-bottom: 24px;
-            max-height: 300px; overflow-y: auto; position: relative;
+            padding: 20px; font-size: 12px; line-height: 1.7; margin-bottom: 20px;
+            max-height: 280px; overflow-y: auto; position: relative;
         }
         .loan-doc h3 { font-size: 14px; text-align: center; margin-bottom: 12px; color: #111; }
         .loan-doc table { width: 100%; border-collapse: collapse; margin: 12px 0; }
         .loan-doc th, .loan-doc td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; font-size: 11px; }
         .loan-doc th { background: #f5f5f5; font-weight: 600; }
         .loan-doc .stamp {
-            position: absolute; bottom: 20px; right: 20px;
+            position: absolute; bottom: 16px; right: 16px;
             border: 3px solid #00a878; color: #00a878;
-            border-radius: 50%; width: 80px; height: 80px;
+            border-radius: 50%; width: 76px; height: 76px;
             display: flex; align-items: center; justify-content: center;
             font-size: 10px; font-weight: 700; text-align: center;
             transform: rotate(-15deg); opacity: 0; transition: opacity 0.5s;
         }
-        .loan-doc .stamp.visible { opacity: 0.7; }
+        .loan-doc .stamp.visible { opacity: 0.75; }
 
         .progress-bar-loan {
             width: 100%; height: 8px; background: var(--border);
-            border-radius: 4px; overflow: hidden; margin-bottom: 16px;
+            border-radius: 4px; overflow: hidden; margin-bottom: 14px;
         }
         .progress-bar-loan .fill {
             height: 100%; width: 0%;
@@ -444,7 +509,7 @@
             border-radius: 4px; transition: width 2s ease;
         }
         .progress-text { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; text-align: center; }
-        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+        .modal-actions { display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
 
         /* Pie chart */
         .pie-section {
@@ -454,67 +519,129 @@
             background: var(--glass); border: 1px solid var(--border);
             border-radius: 16px; padding: 24px; text-align: center;
         }
-        .pie-svg { width: 160px; height: 160px; margin: 0 auto 16px; }
-        .pie-legend { display: flex; flex-direction: column; gap: 6px; }
+        .pie-svg { width: 150px; height: 150px; margin: 0 auto 16px; }
+        .pie-legend { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); 
+            gap: 8px 12px; 
+            text-align: left;
+            margin-top: 4px;
+        }
         .pie-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); }
-        .pie-color { width: 12px; height: 12px; border-radius: 3px; }
+        .pie-color { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
 
         /* Footer */
-        footer { text-align: center; padding: 40px 0; color: var(--text-secondary); font-size: 13px; }
+        footer { text-align: center; padding: 36px 0; color: var(--text-secondary); font-size: 13px; }
         footer a { color: var(--accent-teal); text-decoration: none; }
 
         .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 0.6s ease forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .slide-up { animation: slideUp 0.5s ease forwards; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .ocr-result { grid-template-columns: 1fr; }
-            .pie-section { grid-template-columns: 1fr; }
-            .demo-panel { padding: 20px; }
-            .report-grid { grid-template-columns: repeat(2, 1fr); }
-            .stat-card .stat-value { font-size: 20px; }
-            .modal { padding: 24px; }
-            .loan-doc { max-height: 200px; }
+        /* ==========================================================
+           📱 ULTRA-RESPONSIVE SYSTEM (Mobile, Tablet, Desktop)
+           ========================================================== */
+        
+        /* Tablets and laptops (< 960px) */
+        @media (max-width: 960px) {
+            .container { padding: 0 16px; }
+            .demo-panel { padding: 28px 20px; border-radius: 20px; }
+            .ocr-result { grid-template-columns: 1fr; gap: 20px; }
+            .pie-section { grid-template-columns: 1fr; gap: 20px; }
+            .report-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
         }
-        @media (max-width: 480px) {
-            .container { padding: 0 12px; }
-            .demo-panel { padding: 16px; border-radius: 16px; }
-            .upload-zone { padding: 32px 16px; }
-            .report-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .stat-card { padding: 12px; }
-            .stat-card .stat-value { font-size: 18px; }
-            .bar-chart { height: 140px; }
-            .bar-wrapper { height: 110px; }
-            .actions-bar { flex-direction: column; align-items: stretch; }
-            .btn { justify-content: center; }
-            .step-labels { gap: 12px; }
-            .steps-bar { gap: 3px; }
-            .step-dot { width: 36px; }
-        }        /* 📱 Mobile Responsiveness & Performance */
-        @media (max-width: 768px) {
-            h1 { font-size: clamp(24px, 6vw, 32px); }
-            .demo-panel { 
-                padding: 20px; 
-                backdrop-filter: none !important; 
-                -webkit-backdrop-filter: none !important; 
-                background: var(--bg-secondary); 
+
+        /* Mobile phones (< 640px) */
+        @media (max-width: 640px) {
+            body { font-size: 14px; }
+            header { padding: 20px 0 10px; }
+            h1 { font-size: clamp(24px, 6.5vw, 32px); margin-bottom: 8px; }
+            .subtitle { font-size: 13px; line-height: 1.5; }
+            .logo-badge { font-size: 12px; padding: 6px 14px; margin-bottom: 12px; }
+
+            .steps-bar { margin: 20px 0 14px; gap: 4px; }
+            .step-dot { width: 32px; height: 4px; }
+            .step-labels { gap: 8px 12px; margin-bottom: 20px; }
+            .step-label { font-size: 11px; }
+
+            .demo-panel {
+                padding: 18px 14px;
                 border-radius: 16px;
+                min-height: auto;
+                background: var(--bg-secondary);
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
             }
-            .logo-badge { backdrop-filter: none; -webkit-backdrop-filter: none; }
-            .step-labels { gap: 8px; }
-            .step-label { font-size: 10px; }
-            .upload-zone { padding: 32px 16px; }
-            .ocr-result { grid-template-columns: 1fr; gap: 16px; }
-            .ocr-original, .ocr-extracted { padding: 16px; }
-            .actions-bar { flex-direction: column; width: 100%; }
-            .actions-bar .btn { width: 100%; justify-content: center; }
-            .report-grid { grid-template-columns: 1fr 1fr; }
+
+            .upload-zone { padding: 28px 14px; border-radius: 16px; }
+            .upload-icon { font-size: 44px; margin-bottom: 10px; }
+            .upload-title { font-size: 17px; }
+            .upload-desc { font-size: 13px; margin-bottom: 16px; }
+
+            .sample-btns { gap: 8px; width: 100%; }
+            .sample-btn { padding: 10px 14px; font-size: 12px; flex: 1 1 calc(50% - 8px); text-align: center; }
+
+            .actions-bar { flex-direction: column; width: 100%; gap: 10px; margin-top: 18px; }
+            .actions-bar .btn { width: 100%; justify-content: center; font-size: 14px; padding: 13px 18px; }
+
+            .ocr-original, .ocr-extracted { padding: 14px; border-radius: 14px; }
+            
+            .extracted-field {
+                padding: 10px 12px;
+                gap: 8px;
+                min-height: 44px;
+            }
+            .field-label { font-size: 12px; }
+            .field-value { font-size: 13px; }
+            .field-value.uncertain::after {
+                font-size: 10px;
+                padding: 2px 6px;
+                margin-left: 4px;
+            }
+            .field-value.corrected::after {
+                font-size: 10px;
+                padding: 2px 6px;
+                margin-left: 4px;
+            }
+
+            .modal-overlay { padding: 12px; }
+            .modal {
+                padding: 20px 16px;
+                border-radius: 18px;
+                max-height: calc(100vh - 24px);
+            }
+            .modal h2 { font-size: 18px; }
+            .modal p { font-size: 13px; margin-bottom: 16px; }
+
+            .report-grid { grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+            .stat-card { padding: 14px 10px; border-radius: 12px; }
+            .stat-card .stat-icon { font-size: 22px; margin-bottom: 4px; }
+            .stat-card .stat-value { font-size: 17px; }
+            .stat-card .stat-label { font-size: 11px; }
+
+            .chart-container, .pie-container { padding: 16px 12px; border-radius: 14px; }
+            .bar-chart { height: 140px; padding: 0; gap: 6px; }
+            .bar-wrapper { height: 110px; gap: 2px; }
+            .bar { width: 14px; }
+            .bar-label { font-size: 10px; }
+            .chart-legend { gap: 14px; margin-top: 12px; }
+
+            .toast-notification {
+                left: 16px; right: 16px; bottom: 16px;
+                justify-content: center; text-align: center;
+                max-width: calc(100vw - 32px);
+                font-size: 12px; padding: 12px 16px;
+            }
         }
-        @media (max-width: 480px) {
+
+        /* Very narrow screens (< 380px) */
+        @media (max-width: 380px) {
+            .container { padding: 0 10px; }
             .report-grid { grid-template-columns: 1fr; }
+            .extracted-field { flex-direction: column; align-items: flex-start; gap: 4px; }
+            .field-value { width: 100%; justify-content: space-between; }
         }
         
         /* 🚀 Hardware Acceleration */
@@ -557,9 +684,9 @@
                     <button class="btn btn-primary" id="uploadBtn">📷 Chọn ảnh từ máy</button>
                     <input type="file" id="fileInput" accept="image/*" style="display:none">
                     <div class="sample-btns">
-                        <button class="sample-btn" onclick="useSample('invoice')">🧾 Hóa đơn bán hàng</button>
-                        <button class="sample-btn" onclick="useSample('receipt')">📃 Phiếu thu tiền</button>
-                        <button class="sample-btn" onclick="useSample('handwrite')">✍️ Sổ viết tay</button>
+                        <button type="button" class="sample-btn active-sample" data-sample="invoice" onclick="useSample('invoice', this)">🧾 Hóa đơn bán hàng</button>
+                        <button type="button" class="sample-btn" data-sample="receipt" onclick="useSample('receipt', this)">📃 Phiếu thu tiền</button>
+                        <button type="button" class="sample-btn" data-sample="handwrite" onclick="useSample('handwrite', this)">✍️ Sổ viết tay</button>
                     </div>
                 </div>
             </div>
@@ -661,9 +788,12 @@
     </div>
 
     <!-- Loan Export Modal -->
-    <div class="modal-overlay" id="loanModal">
+    <div class="modal-overlay" id="loanModal" onclick="handleLoanOverlayClick(event)">
         <div class="modal">
-            <h2>🏦 Xuất Hồ sơ Vay vốn</h2>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                <h2 style="font-size:20px; font-weight:700; margin:0;">🏦 Xuất Hồ sơ Vay vốn</h2>
+                <button type="button" class="modal-close-btn" onclick="closeLoanModal()" aria-label="Đóng">✕</button>
+            </div>
             <p>AI đang tổng hợp báo cáo tài chính chuẩn ngân hàng...</p>
             <div class="progress-bar-loan"><div class="fill" id="loanProgress"></div></div>
             <div class="progress-text" id="loanStatus">Đang chuẩn bị dữ liệu...</div>
@@ -701,7 +831,7 @@
                     <span class="modal-header-badge">✏️ HUMAN-IN-THE-LOOP</span>
                     <h2 style="font-size:20px; font-weight:700; margin-top:4px;">Hiệu chỉnh dữ liệu nhận diện</h2>
                 </div>
-                <button type="button" onclick="closeEditModal()" style="background:none; border:none; color:var(--text-secondary); font-size:22px; cursor:pointer; padding:4px;">✕</button>
+                <button type="button" class="modal-close-btn" onclick="closeEditModal()" aria-label="Đóng">✕</button>
             </div>
             <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 20px;">
                 AI phát hiện trường có độ tin cậy thấp hoặc nghi ngờ sai số. Bạn có thể đối chiếu chứng từ gốc và chạm sửa số liệu ngay bên dưới.
@@ -872,65 +1002,130 @@
             }
         };
 
-        // Upload handling
+        // Upload & Sample handling
+        let processingInterval = null;
+        let processingTimeout = null;
+        let loanTimeouts = [];
+        const activeCounters = {};
+
+        function clearProcessingTimers() {
+            if (processingInterval) {
+                clearInterval(processingInterval);
+                processingInterval = null;
+            }
+            if (processingTimeout) {
+                clearTimeout(processingTimeout);
+                processingTimeout = null;
+            }
+        }
+
+        function clearLoanTimeouts() {
+            loanTimeouts.forEach(t => clearTimeout(t));
+            loanTimeouts = [];
+        }
+
         document.getElementById('uploadBtn').addEventListener('click', () => {
             document.getElementById('fileInput').click();
         });
-        document.getElementById('fileInput').addEventListener('change', (e) => {
-            if (e.target.files.length > 0) { currentSample = 'invoice'; startProcessing(); }
-        });
+
         document.getElementById('uploadZone').addEventListener('click', (e) => {
             if (e.target.tagName !== 'BUTTON' && !e.target.closest('.sample-btns')) {
                 document.getElementById('fileInput').click();
             }
         });
 
-        function useSample(type) {
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    const dataUrl = evt.target.result;
+                    sampleData.custom = {
+                        original: `
+                            <h3>📸 Chứng từ chụp thực tế</h3>
+                            <div style="background:rgba(0,0,0,0.3); border-radius:12px; padding:12px; text-align:center; border:1px solid var(--border);">
+                                <img src="${dataUrl}" alt="Chứng từ thực tế" style="max-width:100%; max-height:260px; border-radius:8px; object-fit:contain; box-shadow:0 4px 14px rgba(0,0,0,0.4);" />
+                                <div style="margin-top:8px; font-size:12px; color:var(--accent-teal); font-weight:600;">✅ Nhận diện thành công từ ảnh thiết bị</div>
+                            </div>`,
+                        extracted: [
+                            { label: 'Chứng từ', value: file.name.length > 22 ? file.name.substring(0, 20) + '...' : file.name, type: 'confident' },
+                            { label: 'Thời gian quét', value: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + ' - ' + new Date().toLocaleDateString('vi-VN'), type: 'confident' },
+                            { label: 'Cửa hàng/Hộ KD', value: 'Cửa hàng Đặc sản Tây Ninh', type: 'confident' },
+                            { label: 'Combo đặc sản (x2)', value: '640.000đ', type: 'confident' },
+                            { 
+                                label: 'Phí giao hàng CoD', 
+                                value: '45.000đ', 
+                                type: 'uncertain', 
+                                title: 'AI confidence: 71% - Chạm để xác nhận hoặc sửa',
+                                suggestedValue: '35.000đ',
+                                suggestReason: 'Tổng tiền đơn hàng là 675.000đ (tiền hàng 640.000đ). Cước phí chênh lệch chuẩn là <strong>35.000đ</strong>.'
+                            },
+                            { label: 'TỔNG CỘNG', value: '675.000đ', type: 'total' },
+                        ],
+                        confidence: 86
+                    };
+                    currentSample = 'custom';
+                    document.querySelectorAll('.sample-btn').forEach(b => b.classList.remove('active-sample'));
+                    startProcessing();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function useSample(type, btn) {
             currentSample = type;
             document.querySelectorAll('.sample-btn').forEach(b => b.classList.remove('active-sample'));
-            event.target.classList.add('active-sample');
+            if (btn) {
+                btn.classList.add('active-sample');
+            } else {
+                const targetBtn = document.querySelector(`.sample-btn[data-sample="${type}"]`);
+                if (targetBtn) targetBtn.classList.add('active-sample');
+            }
             startProcessing();
         }
 
         function startProcessing() {
+            clearProcessingTimers();
             goToStep(2);
             resetProcessing();
             animateProcessing();
         }
 
         function resetProcessing() {
-            document.querySelectorAll('#processingSteps li').forEach(li => {
-                li.classList.remove('active', 'done');
-                li.querySelector('.check-icon').textContent = li.querySelector('.check-icon').textContent.replace('✓', '');
-            });
             const steps = document.querySelectorAll('#processingSteps li');
-            steps.forEach((s, i) => s.querySelector('.check-icon').textContent = (i + 1).toString());
+            steps.forEach((s, i) => {
+                s.classList.remove('active', 'done');
+                const check = s.querySelector('.check-icon');
+                if (check) check.textContent = (i + 1).toString();
+            });
         }
 
         function animateProcessing() {
+            clearProcessingTimers();
             const steps = document.querySelectorAll('#processingSteps li');
             let i = 0;
-            const interval = setInterval(() => {
+            processingInterval = setInterval(() => {
                 if (i > 0) {
                     steps[i - 1].classList.remove('active');
                     steps[i - 1].classList.add('done');
-                    steps[i - 1].querySelector('.check-icon').textContent = '✓';
+                    const check = steps[i - 1].querySelector('.check-icon');
+                    if (check) check.textContent = '✓';
                 }
                 if (i < steps.length) {
                     steps[i].classList.add('active');
                     i++;
                 } else {
-                    clearInterval(interval);
-                    setTimeout(() => {
+                    clearProcessingTimers();
+                    processingTimeout = setTimeout(() => {
                         renderOCR(currentSample);
                         goToStep(3);
-                    }, 600);
+                    }, 500);
                 }
-            }, 800);
+            }, 700);
         }
 
         function renderOCR(type) {
-            const data = sampleData[type];
+            const data = sampleData[type] || sampleData.invoice;
             const container = document.getElementById('ocrResult');
 
             let extractedHTML = '<h3>🤖 AI bóc tách <span style="font-size:11px;font-weight:normal;color:var(--text-secondary);margin-left:auto;">💡 Chạm vào dòng để sửa</span></h3>';
@@ -939,9 +1134,13 @@
                 const isCorrected = f.type && f.type.includes('corrected');
                 
                 if (f.type === 'total') {
-                    extractedHTML += `<div class="extracted-field" style="border-color: rgba(0,212,170,0.2); cursor: default;">
-                        <span class="field-label" style="font-weight:600;">${f.label}</span>
-                        <span class="field-value confident" style="font-size:18px;">${f.value}</span>
+                    const isAllPerfect = data.confidence === 100;
+                    extractedHTML += `<div class="extracted-field" style="border-color: rgba(0,212,170,0.3); background: rgba(0,212,170,0.06); cursor: default;">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span class="field-label" style="font-weight:700; color:var(--text-primary); font-size:14px;">${f.label}</span>
+                            ${isAllPerfect ? '<span class="match-badge">✓ Khớp sổ 100%</span>' : ''}
+                        </div>
+                        <span class="field-value confident" style="font-size:18px; font-weight:800; color:var(--accent-teal);">${f.value}</span>
                     </div>`;
                 } else {
                     extractedHTML += `<div class="extracted-field ${isUncertain ? 'is-uncertain' : ''} ${isCorrected ? 'is-corrected' : ''}" onclick="openEditField('${type}', ${idx})" title="${isUncertain ? '⚠️ Chạm để sửa giá trị nhận diện' : 'Chạm để chỉnh sửa'}">
@@ -966,10 +1165,13 @@
             setTimeout(() => {
                 const fill = document.getElementById('confFill');
                 if (fill) fill.style.width = data.confidence + '%';
-            }, 300);
+            }, 250);
         }
 
         function goToStep(step) {
+            if (step !== 2) {
+                clearProcessingTimers();
+            }
             document.getElementById('step' + currentStep).classList.add('hidden');
             document.querySelectorAll('.step-dot').forEach((dot, idx) => {
                 dot.classList.remove('active', 'done');
@@ -983,8 +1185,31 @@
             currentStep = step;
             const el = document.getElementById('step' + step);
             el.classList.remove('hidden');
-            if (step === 4) setTimeout(animateReport, 300);
+
+            if (step === 3) {
+                const container = document.getElementById('ocrResult');
+                if (!container || !container.children.length) {
+                    renderOCR(currentSample);
+                }
+            } else if (step === 4) {
+                setTimeout(animateReport, 200);
+            }
         }
+
+        // Clickable Step Navigation
+        document.querySelectorAll('.step-dot, .step-label').forEach(el => {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', () => {
+                const step = parseInt(el.getAttribute('data-step'), 10);
+                if (step) {
+                    if (step === 2) {
+                        startProcessing();
+                    } else {
+                        goToStep(step);
+                    }
+                }
+            });
+        });
 
         function animateReport() {
             animateCounter('totalIncome', 18500000, '₫');
@@ -997,16 +1222,26 @@
         }
 
         function animateCounter(id, target, suffix) {
+            if (activeCounters[id]) {
+                clearInterval(activeCounters[id]);
+                activeCounters[id] = null;
+            }
             const el = document.getElementById(id);
+            if (!el) return;
             let current = 0;
-            const step = target / 40;
-            const timer = setInterval(() => {
+            const stepsCount = 30;
+            const step = target / stepsCount;
+            activeCounters[id] = setInterval(() => {
                 current += step;
-                if (current >= target) { current = target; clearInterval(timer); }
+                if (current >= target) {
+                    current = target;
+                    clearInterval(activeCounters[id]);
+                    activeCounters[id] = null;
+                }
                 el.textContent = suffix === '₫'
                     ? Math.round(current).toLocaleString('vi-VN') + 'đ'
                     : Math.round(current);
-            }, 30);
+            }, 25);
         }
 
         function buildChart() {
@@ -1024,11 +1259,11 @@
                 const incBar = document.createElement('div');
                 incBar.className = 'bar income';
                 incBar.style.height = '0px';
-                setTimeout(() => { incBar.style.height = (income[i] / maxVal * 140) + 'px'; }, 100 + i * 100);
+                setTimeout(() => { incBar.style.height = (income[i] / maxVal * 140) + 'px'; }, 80 + i * 80);
                 const expBar = document.createElement('div');
                 expBar.className = 'bar expense';
                 expBar.style.height = '0px';
-                setTimeout(() => { expBar.style.height = (expense[i] / maxVal * 140) + 'px'; }, 200 + i * 100);
+                setTimeout(() => { expBar.style.height = (expense[i] / maxVal * 140) + 'px'; }, 160 + i * 80);
                 wrapper.appendChild(incBar);
                 wrapper.appendChild(expBar);
                 const label = document.createElement('div');
@@ -1053,7 +1288,7 @@
             let offset = 25;
             svg.innerHTML = '<circle cx="18" cy="18" r="15.9" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="3.8"/>';
             legend.innerHTML = '';
-            data.forEach((d, i) => {
+            data.forEach((d) => {
                 const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 circle.setAttribute('cx', '18');
                 circle.setAttribute('cy', '18');
@@ -1097,6 +1332,7 @@
 
         // Loan Modal
         function openLoanModal() {
+            clearLoanTimeouts();
             const modal = document.getElementById('loanModal');
             const progress = document.getElementById('loanProgress');
             const status = document.getElementById('loanStatus');
@@ -1117,7 +1353,7 @@
             ];
 
             steps.forEach((s, i) => {
-                setTimeout(() => {
+                const tid = setTimeout(() => {
                     progress.style.width = s.pct + '%';
                     status.textContent = s.text;
                     if (i === steps.length - 1) {
@@ -1125,32 +1361,33 @@
                         downloadBtn.style.opacity = '1';
                         downloadBtn.style.pointerEvents = 'all';
                         downloadBtn.onclick = () => {
-                            alert('📥 Đã tải file: BaoCaoTaiChinh_BaThành_062026.pdf\n\nFile PDF chuẩn ngân hàng đã được lưu vào thiết bị.');
+                            showToast('📥 <strong>Đã tải file PDF:</strong> BaoCaoTaiChinh_BaThanh_Agribank.pdf');
                         };
                     }
-                }, 600 * (i + 1));
+                }, 450 * (i + 1));
+                loanTimeouts.push(tid);
             });
         }
 
         function closeLoanModal() {
+            clearLoanTimeouts();
             document.getElementById('loanModal').classList.remove('active');
         }
 
-        function exportPDF() {
-            alert('📄 Đã xuất file: BaoCaoThangTu_062026.pdf\n\nBáo cáo tài chính tháng 06/2026 đã được lưu.');
+        function handleLoanOverlayClick(e) {
+            if (e.target.id === 'loanModal') closeLoanModal();
         }
 
-        // Close modal on overlay click
-        document.getElementById('loanModal').addEventListener('click', (e) => {
-            if (e.target === e.currentTarget) closeLoanModal();
-        });
+        function exportPDF() {
+            showToast('📄 <strong>Đã xuất file:</strong> BaoCaoThangTu_062026.pdf (Chuẩn ngân hàng)');
+        }
 
         // Human-in-the-loop Editing
         let currentEditType = null;
         let currentEditIdx = null;
 
         function openEditField(type, idx) {
-            const item = sampleData[type].extracted[idx];
+            const item = (sampleData[type] || sampleData.invoice).extracted[idx];
             if (!item || item.type === 'total') return;
 
             currentEditType = type;
@@ -1189,11 +1426,12 @@
             setTimeout(() => {
                 input.focus();
                 input.select();
-            }, 150);
+            }, 120);
         }
 
         function applyQuickSuggestion() {
-            const item = sampleData[currentEditType].extracted[currentEditIdx];
+            const dataObj = sampleData[currentEditType] || sampleData.invoice;
+            const item = dataObj.extracted[currentEditIdx];
             if (item && item.suggestedValue) {
                 document.getElementById('editFieldInput').value = item.suggestedValue;
                 saveEditedField();
@@ -1214,7 +1452,8 @@
             const newVal = document.getElementById('editFieldInput').value.trim();
             if (!newVal) return;
 
-            const item = sampleData[currentEditType].extracted[currentEditIdx];
+            const dataObj = sampleData[currentEditType] || sampleData.invoice;
+            const item = dataObj.extracted[currentEditIdx];
             if (!item.originalValue) {
                 item.originalValue = item.value;
             }
@@ -1223,16 +1462,16 @@
             item.title = 'Đã được người dùng xác nhận và chuẩn hóa';
 
             // Check if any uncertain fields remain
-            const remainingUncertain = sampleData[currentEditType].extracted.filter(f => f.type && f.type.includes('uncertain')).length;
+            const remainingUncertain = dataObj.extracted.filter(f => f.type && f.type.includes('uncertain')).length;
             if (remainingUncertain === 0) {
-                sampleData[currentEditType].confidence = 100;
+                dataObj.confidence = 100;
             } else {
-                sampleData[currentEditType].confidence = Math.min(96, sampleData[currentEditType].confidence + 8);
+                dataObj.confidence = Math.min(96, dataObj.confidence + 8);
             }
 
             closeEditModal();
             renderOCR(currentEditType);
-            showToast(`✨ Đã lưu hiệu chỉnh "${item.label}" = <strong>${newVal}</strong>. Độ chính xác đạt <strong>${sampleData[currentEditType].confidence}%</strong>!`);
+            showToast(`✨ Đã lưu hiệu chỉnh "${item.label}" = <strong>${newVal}</strong>. Độ chính xác đạt <strong>${dataObj.confidence}%</strong>!`);
         }
 
         function showToast(msg) {
@@ -1245,7 +1484,7 @@
             }
             toast.innerHTML = msg;
             toast.classList.add('show');
-            clearTimeout(window._toastTimer);
+            if (window._toastTimer) clearTimeout(window._toastTimer);
             window._toastTimer = setTimeout(() => {
                 toast.classList.remove('show');
             }, 3500);
