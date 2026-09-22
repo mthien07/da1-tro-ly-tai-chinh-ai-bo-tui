@@ -175,19 +175,66 @@
             padding: 10px 14px; background: var(--glass); border: 1px solid var(--border);
             border-radius: 10px; margin-bottom: 8px;
             display: flex; justify-content: space-between; align-items: center; transition: all 0.3s;
+            cursor: pointer;
         }
-        .extracted-field:hover { background: rgba(255,255,255,0.06); }
+        .extracted-field:hover { background: rgba(255,255,255,0.08); transform: translateX(2px); }
+        .extracted-field.is-uncertain {
+            border-color: rgba(255, 77, 106, 0.45);
+            background: rgba(255, 77, 106, 0.08);
+            position: relative;
+            box-shadow: 0 0 12px rgba(255, 77, 106, 0.15);
+        }
+        .extracted-field.is-uncertain:hover {
+            border-color: var(--accent-red);
+            background: rgba(255, 77, 106, 0.16);
+            transform: translateX(4px);
+            box-shadow: 0 4px 18px rgba(255, 77, 106, 0.28);
+        }
+        .extracted-field.is-corrected {
+            border-color: rgba(0, 212, 170, 0.4);
+            background: rgba(0, 212, 170, 0.06);
+        }
+        .extracted-field.is-corrected:hover {
+            border-color: var(--accent-teal);
+            background: rgba(0, 212, 170, 0.12);
+        }
         .field-label { font-size: 12px; color: var(--text-secondary); }
-        .field-value { font-size: 14px; font-weight: 600; }
+        .field-value { font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; }
         .field-value.confident { color: var(--accent-teal); }
         .field-value.uncertain {
             color: var(--accent-red); text-decoration: underline wavy;
-            cursor: pointer; position: relative;
+            position: relative;
         }
         .field-value.uncertain::after {
             content: '⚠️ Chạm để sửa'; font-size: 10px;
-            position: absolute; right: 0; top: -16px;
-            color: var(--accent-red); white-space: nowrap; text-decoration: none;
+            margin-left: 8px;
+            color: #fff;
+            background: var(--accent-red);
+            padding: 2px 7px;
+            border-radius: 6px;
+            white-space: nowrap; text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(255, 77, 106, 0.4);
+            animation: pulseAttention 1.8s infinite;
+        }
+        @keyframes pulseAttention {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.06); opacity: 0.9; }
+        }
+        .field-value.corrected {
+            color: var(--accent-teal);
+        }
+        .field-value.corrected::after {
+            content: '✓ Đã xác nhận'; font-size: 10px;
+            margin-left: 8px;
+            color: var(--accent-teal);
+            background: rgba(0, 212, 170, 0.15);
+            border: 1px solid rgba(0, 212, 170, 0.4);
+            padding: 2px 7px;
+            border-radius: 6px;
+            white-space: nowrap; text-decoration: none;
+            font-weight: 600;
         }
         .confidence-bar {
             display: flex; align-items: center; gap: 8px; margin-top: 16px;
@@ -198,9 +245,85 @@
         .confidence-bar .bar-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--accent-red), var(--accent-gold), var(--accent-teal));
-            border-radius: 3px; width: 0%; transition: width 1.5s ease;
+            border-radius: 3px; width: 0%; transition: width 1s ease;
+        }
+        .confidence-bar.all-perfect .bar-fill {
+            background: linear-gradient(90deg, var(--accent-teal), #00ffc8);
+            box-shadow: 0 0 10px rgba(0, 212, 170, 0.6);
         }
         .actions-bar { display: flex; gap: 12px; margin-top: 24px; justify-content: center; flex-wrap: wrap; }
+
+        /* Edit Field Modal & Toast */
+        .edit-modal { max-width: 520px; }
+        .modal-header-badge {
+            display: inline-block; font-size: 10px; text-transform: uppercase;
+            letter-spacing: 1.5px; padding: 4px 10px; border-radius: 6px;
+            background: rgba(0, 212, 170, 0.15); color: var(--accent-teal);
+            font-weight: 700; border: 1px solid rgba(0, 212, 170, 0.3);
+        }
+        .edit-field-info {
+            background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border);
+            border-radius: 12px; padding: 14px 16px; margin: 16px 0;
+        }
+        .info-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 8px; font-size: 13px;
+        }
+        .info-row:last-child { margin-bottom: 0; }
+        .info-label { color: var(--text-secondary); }
+        .conf-badge-pill {
+            font-size: 11px; padding: 2px 8px; border-radius: 100px; font-weight: 600;
+        }
+        .conf-badge-pill.pill-warning {
+            background: rgba(255, 77, 106, 0.15); color: var(--accent-red);
+            border: 1px solid rgba(255, 77, 106, 0.3);
+        }
+        .conf-badge-pill.pill-success {
+            background: rgba(0, 212, 170, 0.15); color: var(--accent-teal);
+            border: 1px solid rgba(0, 212, 170, 0.3);
+        }
+        .ai-suggestion-box {
+            background: linear-gradient(135deg, rgba(244, 185, 66, 0.12), rgba(0, 212, 170, 0.06));
+            border: 1px solid rgba(244, 185, 66, 0.35);
+            border-radius: 12px; padding: 14px 16px; margin-bottom: 16px;
+        }
+        .ai-suggestion-title {
+            font-size: 12px; font-weight: 700; color: var(--accent-gold); margin-bottom: 6px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .ai-suggestion-text {
+            font-size: 13px; color: var(--text-primary); line-height: 1.5; margin-bottom: 12px;
+        }
+        .btn-quick-apply {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 8px 16px; border-radius: 8px; background: var(--accent-gold);
+            color: #0a1628; font-size: 12px; font-weight: 700; border: none;
+            cursor: pointer; transition: all 0.2s; font-family: inherit;
+        }
+        .btn-quick-apply:hover {
+            transform: translateY(-1px); box-shadow: 0 4px 14px rgba(244, 185, 66, 0.4);
+        }
+        .modal-input {
+            width: 100%; padding: 12px 16px; border-radius: 10px;
+            border: 1px solid var(--border); background: rgba(255, 255, 255, 0.06);
+            color: var(--text-primary); font-size: 16px; font-weight: 600;
+            font-family: inherit; outline: none; transition: all 0.2s;
+        }
+        .modal-input:focus {
+            border-color: var(--accent-teal); background: rgba(0, 212, 170, 0.05);
+            box-shadow: 0 0 12px rgba(0, 212, 170, 0.25);
+        }
+        .toast-notification {
+            position: fixed; bottom: 28px; right: 28px;
+            background: #111d33; border: 1px solid var(--accent-teal);
+            color: #fff; padding: 14px 22px; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(0,212,170,0.25);
+            z-index: 2000; display: flex; align-items: center; gap: 10px;
+            font-size: 14px; font-weight: 500;
+            transform: translateY(100px); opacity: 0; pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .toast-notification.show { transform: translateY(0); opacity: 1; pointer-events: all; }
 
         /* Receipt preview style */
         .receipt-preview {
@@ -570,6 +693,63 @@
         </div>
     </div>
 
+    <!-- Edit Field Modal (Human-in-the-Loop) -->
+    <div class="modal-overlay" id="editModal" onclick="handleEditOverlayClick(event)">
+        <div class="modal edit-modal">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+                <div>
+                    <span class="modal-header-badge">✏️ HUMAN-IN-THE-LOOP</span>
+                    <h2 style="font-size:20px; font-weight:700; margin-top:4px;">Hiệu chỉnh dữ liệu nhận diện</h2>
+                </div>
+                <button type="button" onclick="closeEditModal()" style="background:none; border:none; color:var(--text-secondary); font-size:22px; cursor:pointer; padding:4px;">✕</button>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 20px;">
+                AI phát hiện trường có độ tin cậy thấp hoặc nghi ngờ sai số. Bạn có thể đối chiếu chứng từ gốc và chạm sửa số liệu ngay bên dưới.
+            </p>
+
+            <div class="edit-field-info">
+                <div class="info-row">
+                    <span class="info-label">Mục kiểm tra:</span>
+                    <span class="info-val" id="editFieldName" style="font-weight:700; color:var(--text-primary);">Nhang thơm (x3)</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">AI đọc ban đầu:</span>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <span class="info-val" id="editFieldOcrVal" style="color:var(--accent-red); font-weight:700; text-decoration:line-through;">185.000đ</span>
+                        <span class="conf-badge-pill pill-warning" id="editFieldConfidence">Độ tin cậy: 72%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Smart Reconciliation / Suggestion -->
+            <div class="ai-suggestion-box" id="aiSuggestionBox">
+                <div class="ai-suggestion-title">💡 Gợi ý đối soát thông minh từ AI:</div>
+                <div class="ai-suggestion-text" id="aiSuggestionText">
+                    Tổng hóa đơn gốc là <strong>935.000đ</strong>. Để các mục cộng lại khớp 100% với hóa đơn, giá trị đúng nên là <strong>135.000đ</strong>.
+                </div>
+                <button type="button" class="btn-quick-apply" id="btnQuickApply" onclick="applyQuickSuggestion()">
+                    ⚡ Áp dụng nhanh: <span id="quickApplyVal">135.000đ</span>
+                </button>
+            </div>
+
+            <!-- Manual input -->
+            <div style="margin-top:16px;">
+                <label for="editFieldInput" style="display:block; font-size:13px; color:var(--text-secondary); margin-bottom:8px; font-weight:500;">
+                    Nhập giá trị chính xác (hoặc chạm chọn gợi ý phía trên):
+                </label>
+                <input type="text" id="editFieldInput" class="modal-input" placeholder="Ví dụ: 135.000đ" />
+            </div>
+
+            <div class="modal-actions" style="margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+                <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Hủy bỏ</button>
+                <button type="button" class="btn btn-primary" onclick="saveEditedField()">✅ Lưu & Cập nhật</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast-notification"></div>
+
     <script>
         let currentStep = 1;
         let currentSample = 'invoice';
@@ -599,7 +779,14 @@
                     { label: 'Ngày', value: '20/06/2026', type: 'confident' },
                     { label: 'Muối tôm loại 1 (x5)', value: '250.000đ', type: 'confident' },
                     { label: 'Bánh tráng (x10)', value: '350.000đ', type: 'confident' },
-                    { label: 'Nhang thơm (x3)', value: '185.000đ', type: 'uncertain', title: 'AI confidence: 72% - Có thể là 135.000 hoặc 185.000' },
+                    { 
+                        label: 'Nhang thơm (x3)', 
+                        value: '185.000đ', 
+                        type: 'uncertain', 
+                        title: 'AI confidence: 72% - Chạm để sửa giá trị',
+                        suggestedValue: '135.000đ',
+                        suggestReason: 'Tổng hóa đơn gốc là <strong>935.000đ</strong>. Các mục khác gồm 250k + 350k + 200k = 800k. Để khớp 100% với tổng hóa đơn, mục này chính xác là <strong>135.000đ</strong>.'
+                    },
                     { label: 'Muối ớt (x8)', value: '200.000đ', type: 'confident' },
                     { label: 'TỔNG CỘNG', value: '935.000đ', type: 'total' },
                 ],
@@ -630,7 +817,14 @@
                     { label: 'Người nộp', value: 'Chị Ngọc — Chợ TN', type: 'confident' },
                     { label: '10 hộp combo', value: '1.500.000đ', type: 'confident' },
                     { label: 'Phí đóng gói', value: '100.000đ', type: 'confident' },
-                    { label: 'Phí ship', value: '50.000đ', type: 'uncertain', title: 'AI confidence: 65% - Chữ viết tay khó đọc, có thể 50k hoặc 80k' },
+                    { 
+                        label: 'Phí ship', 
+                        value: '50.000đ', 
+                        type: 'uncertain', 
+                        title: 'AI confidence: 65% - Chữ viết tay khó đọc, chạm để kiểm tra',
+                        suggestedValue: '50.000đ',
+                        suggestReason: 'Tổng phiếu thu là 1.650.000đ (1.500.000đ combo + 100.000đ đóng gói + 50.000đ ship). Số liệu <strong>50.000đ</strong> khớp tuyệt đối.'
+                    },
                     { label: 'TỔNG THU', value: '1.650.000đ', type: 'total' },
                 ],
                 confidence: 91
@@ -655,9 +849,23 @@
                     { label: 'Ngày ghi sổ', value: '21/06/2026', type: 'confident' },
                     { label: 'Muối tôm 3kg', value: '240.000đ', type: 'confident' },
                     { label: 'Bánh tráng 5 xấp', value: '175.000đ', type: 'confident' },
-                    { label: 'Nhang lớn 2 bó', value: '90.000đ', type: 'uncertain', title: 'AI confidence: 68% - Chữ viết tay khó đọc, 90k hoặc 96k' },
+                    { 
+                        label: 'Nhang lớn 2 bó', 
+                        value: '90.000đ', 
+                        type: 'uncertain', 
+                        title: 'AI confidence: 68% - Chữ viết tay, chạm để sửa',
+                        suggestedValue: '90.000đ',
+                        suggestReason: 'Dòng sổ ghi 2 bó @ 45k = 90k. Khớp chuẩn với tổng thu 805k trong ngày.'
+                    },
                     { label: 'Mua bột tôm 2kg', value: '-120.000đ', type: 'confident' },
-                    { label: 'Thu nợ chú Ba', value: '300.000đ', type: 'uncertain', title: 'AI confidence: 74% - Có thể 300k hoặc 500k' },
+                    { 
+                        label: 'Thu nợ chú Ba', 
+                        value: '300.000đ', 
+                        type: 'uncertain', 
+                        title: 'AI confidence: 74% - Chạm để xác nhận số tiền',
+                        suggestedValue: '300.000đ',
+                        suggestReason: 'Tổng thu ghi 805k (240k + 175k + 90k + 300k = 805k). Số tiền chính xác là <strong>300.000đ</strong>.'
+                    },
                     { label: 'TỔNG NGÀY', value: '685.000đ', type: 'total' },
                 ],
                 confidence: 78
@@ -725,24 +933,28 @@
             const data = sampleData[type];
             const container = document.getElementById('ocrResult');
 
-            let extractedHTML = '<h3>🤖 AI bóc tách</h3>';
-            data.extracted.forEach(f => {
+            let extractedHTML = '<h3>🤖 AI bóc tách <span style="font-size:11px;font-weight:normal;color:var(--text-secondary);margin-left:auto;">💡 Chạm vào dòng để sửa</span></h3>';
+            data.extracted.forEach((f, idx) => {
+                const isUncertain = f.type && f.type.includes('uncertain');
+                const isCorrected = f.type && f.type.includes('corrected');
+                
                 if (f.type === 'total') {
-                    extractedHTML += `<div class="extracted-field" style="border-color: rgba(0,212,170,0.2);">
+                    extractedHTML += `<div class="extracted-field" style="border-color: rgba(0,212,170,0.2); cursor: default;">
                         <span class="field-label" style="font-weight:600;">${f.label}</span>
                         <span class="field-value confident" style="font-size:18px;">${f.value}</span>
                     </div>`;
                 } else {
-                    extractedHTML += `<div class="extracted-field">
+                    extractedHTML += `<div class="extracted-field ${isUncertain ? 'is-uncertain' : ''} ${isCorrected ? 'is-corrected' : ''}" onclick="openEditField('${type}', ${idx})" title="${isUncertain ? '⚠️ Chạm để sửa giá trị nhận diện' : 'Chạm để chỉnh sửa'}">
                         <span class="field-label">${f.label}</span>
                         <span class="field-value ${f.type}" ${f.title ? `title="${f.title}"` : ''}>${f.value}</span>
                     </div>`;
                 }
             });
-            extractedHTML += `<div class="confidence-bar">
+            const isAllPerfect = data.confidence === 100;
+            extractedHTML += `<div class="confidence-bar ${isAllPerfect ? 'all-perfect' : ''}">
                 <span style="font-size:12px;">🎯 Độ chính xác:</span>
                 <div class="bar"><div class="bar-fill" id="confFill"></div></div>
-                <span style="font-size:13px; font-weight:700; color: var(--accent-teal);">${data.confidence}%</span>
+                <span id="confText" style="font-size:13px; font-weight:700; color: var(--accent-teal);">${data.confidence}%${isAllPerfect ? ' (Hoàn hảo)' : ''}</span>
             </div>`;
 
             container.innerHTML = `
@@ -931,6 +1143,126 @@
         // Close modal on overlay click
         document.getElementById('loanModal').addEventListener('click', (e) => {
             if (e.target === e.currentTarget) closeLoanModal();
+        });
+
+        // Human-in-the-loop Editing
+        let currentEditType = null;
+        let currentEditIdx = null;
+
+        function openEditField(type, idx) {
+            const item = sampleData[type].extracted[idx];
+            if (!item || item.type === 'total') return;
+
+            currentEditType = type;
+            currentEditIdx = idx;
+
+            document.getElementById('editFieldName').textContent = item.label;
+            document.getElementById('editFieldOcrVal').textContent = item.originalValue || item.value;
+
+            // Confidence pill
+            const confPill = document.getElementById('editFieldConfidence');
+            if (item.type && item.type.includes('uncertain')) {
+                confPill.textContent = 'Độ tin cậy thấp (65% - 74%)';
+                confPill.className = 'conf-badge-pill pill-warning';
+            } else if (item.type && item.type.includes('corrected')) {
+                confPill.textContent = 'Đã chuẩn hóa (100%)';
+                confPill.className = 'conf-badge-pill pill-success';
+            } else {
+                confPill.textContent = 'Độ tin cậy cao (98%)';
+                confPill.className = 'conf-badge-pill pill-success';
+            }
+
+            // AI suggestion
+            const suggBox = document.getElementById('aiSuggestionBox');
+            if (item.suggestedValue && item.suggestedValue !== item.value) {
+                suggBox.style.display = 'block';
+                document.getElementById('aiSuggestionText').innerHTML = item.suggestReason || `Gợi ý chuẩn hóa từ AI: <strong>${item.suggestedValue}</strong>`;
+                document.getElementById('quickApplyVal').textContent = item.suggestedValue;
+            } else {
+                suggBox.style.display = 'none';
+            }
+
+            const input = document.getElementById('editFieldInput');
+            input.value = item.value;
+
+            document.getElementById('editModal').classList.add('active');
+            setTimeout(() => {
+                input.focus();
+                input.select();
+            }, 150);
+        }
+
+        function applyQuickSuggestion() {
+            const item = sampleData[currentEditType].extracted[currentEditIdx];
+            if (item && item.suggestedValue) {
+                document.getElementById('editFieldInput').value = item.suggestedValue;
+                saveEditedField();
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+        }
+
+        function handleEditOverlayClick(e) {
+            if (e.target.id === 'editModal') closeEditModal();
+        }
+
+        function saveEditedField() {
+            if (currentEditType === null || currentEditIdx === null) return;
+
+            const newVal = document.getElementById('editFieldInput').value.trim();
+            if (!newVal) return;
+
+            const item = sampleData[currentEditType].extracted[currentEditIdx];
+            if (!item.originalValue) {
+                item.originalValue = item.value;
+            }
+            item.value = newVal;
+            item.type = 'confident corrected';
+            item.title = 'Đã được người dùng xác nhận và chuẩn hóa';
+
+            // Check if any uncertain fields remain
+            const remainingUncertain = sampleData[currentEditType].extracted.filter(f => f.type && f.type.includes('uncertain')).length;
+            if (remainingUncertain === 0) {
+                sampleData[currentEditType].confidence = 100;
+            } else {
+                sampleData[currentEditType].confidence = Math.min(96, sampleData[currentEditType].confidence + 8);
+            }
+
+            closeEditModal();
+            renderOCR(currentEditType);
+            showToast(`✨ Đã lưu hiệu chỉnh "${item.label}" = <strong>${newVal}</strong>. Độ chính xác đạt <strong>${sampleData[currentEditType].confidence}%</strong>!`);
+        }
+
+        function showToast(msg) {
+            let toast = document.getElementById('toastNotification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toastNotification';
+                toast.className = 'toast-notification';
+                document.body.appendChild(toast);
+            }
+            toast.innerHTML = msg;
+            toast.classList.add('show');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // Global keyboard handling
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeEditModal();
+                closeLoanModal();
+            }
+        });
+        document.getElementById('editFieldInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveEditedField();
+            }
         });
     </script>
 </body>
