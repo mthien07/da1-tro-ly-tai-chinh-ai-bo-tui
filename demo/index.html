@@ -801,7 +801,7 @@
             <div class="progress-bar-loan"><div class="fill" id="loanProgress"></div></div>
             <div class="progress-text" id="loanStatus">Đang chuẩn bị dữ liệu...</div>
             <div class="loan-doc" id="loanDoc">
-                <h3>BÁO CÁO TÀI CHÍNH<br><span style="font-size:11px;font-weight:400;">Phục vụ hồ sơ vay vốn Ngân hàng</span></h3>
+                <h3>BÁO CÁO TÀI CHÍNH<br><span style="font-size:11px;font-weight:400;">Phục vụ hồ sơ vay vốn (mẫu tham khảo)</span></h3>
                 <p><strong>Đơn vị:</strong> Cửa hàng Muối Tôm Ba Thành</p>
                 <p><strong>Địa chỉ:</strong> 123 Nguyễn Huệ, TP. Tây Ninh</p>
                 <p><strong>Kỳ báo cáo:</strong> 01/06/2026 — 30/06/2026</p>
@@ -884,6 +884,7 @@
     <div id="toastNotification" class="toast-notification"></div>
 
     <script>
+        function escapeHtml(t) { return String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
         let currentStep = 1;
         let currentSample = 'invoice';
 
@@ -1051,7 +1052,7 @@
                                 <div style="margin-top:8px; font-size:12px; color:#f4b942; font-weight:600;">⚠️ Bản demo web chưa gửi ảnh tới OCR thật — kết quả bên cạnh là dữ liệu mẫu minh họa. OCR thật (Google Cloud Vision) nằm ở backend MVP.</div>
                             </div>`,
                         extracted: [
-                            { label: 'Chứng từ', value: file.name.length > 22 ? file.name.substring(0, 20) + '...' : file.name, type: 'confident' },
+                            { label: 'Chứng từ', value: escapeHtml(file.name).length > 22 ? escapeHtml(file.name).substring(0, 20) + '...' : escapeHtml(file.name), type: 'confident' },
                             { label: 'Thời gian quét', value: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + ' - ' + new Date().toLocaleDateString('vi-VN'), type: 'confident' },
                             { label: 'Cửa hàng/Hộ KD', value: 'Cửa hàng mẫu (minh họa)', type: 'confident' },
                             { label: 'Combo đặc sản (x2)', value: '640.000đ', type: 'confident' },
@@ -1460,7 +1461,8 @@
             if (!item.originalValue) {
                 item.originalValue = item.value;
             }
-            item.value = newVal;
+            const safeVal = escapeHtml(newVal);
+            item.value = safeVal;
             item.type = 'confident corrected';
             item.title = 'Đã được người dùng xác nhận và chuẩn hóa';
 
@@ -1474,7 +1476,7 @@
 
             closeEditModal();
             renderOCR(currentEditType);
-            showToast(`✨ Đã lưu hiệu chỉnh "${item.label}" = <strong>${newVal}</strong>. Độ tin cậy đạt <strong>${dataObj.confidence}%</strong>!`);
+            showToast(`✨ Đã lưu hiệu chỉnh "${escapeHtml(item.label)}" = <strong>${safeVal}</strong>. Độ tin cậy đạt <strong>${dataObj.confidence}%</strong>!`);
         }
 
         function showToast(msg) {
