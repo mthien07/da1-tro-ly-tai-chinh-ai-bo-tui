@@ -648,9 +648,12 @@
         .step-dot, .stat-card, .btn, .processing-animation {
             will-change: transform;
         }
+            .demo-ribbon { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 9000; background: #2b2410; color: #f4b942; border: 1px solid rgba(244,185,66,0.55); padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; pointer-events: none; white-space: nowrap; font-family: Inter, system-ui, sans-serif; }
+        @media (max-width: 768px) { body { padding-bottom: 150px; } .demo-ribbon { bottom: 76px; font-size: 11px; white-space: normal; text-align: center; width: calc(100% - 48px); } }
     </style>
 </head>
 <body>
+    <div class="demo-ribbon">Bản demo mô phỏng giao diện · Dữ liệu minh họa · OCR thật nằm ở backend MVP</div>
     <div class="container">
         <header>
             <div class="logo-badge">🐝 HTX OneBee × AI</div>
@@ -695,10 +698,10 @@
             <div id="step2" class="hidden">
                 <div class="processing-view fade-in">
                     <div class="processing-animation"></div>
-                    <h2 style="margin-bottom: 8px;">AI đang xử lý...</h2>
-                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px;">Vui lòng chờ trong giây lát</p>
+                    <h2 style="margin-bottom: 8px;">AI đang xử lý... (mô phỏng)</h2>
+                    <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 24px;">Minh họa các bước xử lý theo thiết kế</p>
                     <ul class="processing-steps" id="processingSteps">
-                        <li class="active"><span class="check-icon">1</span> Tiền xử lý ảnh (OpenCV)</li>
+                        <li class="active"><span class="check-icon">1</span> Tiền xử lý ảnh (xoay, cân sáng)</li>
                         <li><span class="check-icon">2</span> Nhận diện văn bản (Google Cloud Vision)</li>
                         <li><span class="check-icon">3</span> Phân tích ngữ nghĩa (Gemini AI)</li>
                         <li><span class="check-icon">4</span> Phân loại thu/chi tự động</li>
@@ -794,7 +797,7 @@
                 <h2 style="font-size:20px; font-weight:700; margin:0;">🏦 Xuất Hồ sơ Vay vốn</h2>
                 <button type="button" class="modal-close-btn" onclick="closeLoanModal()" aria-label="Đóng">✕</button>
             </div>
-            <p>AI đang tổng hợp báo cáo tài chính chuẩn ngân hàng...</p>
+            <p>Đang tổng hợp báo cáo tài chính (mô phỏng)...</p>
             <div class="progress-bar-loan"><div class="fill" id="loanProgress"></div></div>
             <div class="progress-text" id="loanStatus">Đang chuẩn bị dữ liệu...</div>
             <div class="loan-doc" id="loanDoc">
@@ -814,7 +817,7 @@
                     </tbody>
                 </table>
                 <p style="margin-top:12px;font-size:10px;color:#888;">Báo cáo được AI tổng hợp tự động từ 47 hóa đơn đã xử lý. Đã xác thực bởi chủ cửa hàng.</p>
-                <div class="stamp" id="loanStamp">XÁC NHẬN<br>ĐẠT CHUẨN</div>
+                <div class="stamp" id="loanStamp">BẢN NHÁP<br>MINH HỌA</div>
             </div>
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeLoanModal()">Đóng</button>
@@ -1045,12 +1048,12 @@
                             <h3>📸 Chứng từ chụp thực tế</h3>
                             <div style="background:rgba(0,0,0,0.3); border-radius:12px; padding:12px; text-align:center; border:1px solid var(--border);">
                                 <img src="${dataUrl}" alt="Chứng từ thực tế" style="max-width:100%; max-height:260px; border-radius:8px; object-fit:contain; box-shadow:0 4px 14px rgba(0,0,0,0.4);" />
-                                <div style="margin-top:8px; font-size:12px; color:var(--accent-teal); font-weight:600;">✅ Nhận diện thành công từ ảnh thiết bị</div>
+                                <div style="margin-top:8px; font-size:12px; color:#f4b942; font-weight:600;">⚠️ Bản demo web chưa gửi ảnh tới OCR thật — kết quả bên cạnh là dữ liệu mẫu minh họa. OCR thật (Google Cloud Vision) nằm ở backend MVP.</div>
                             </div>`,
                         extracted: [
                             { label: 'Chứng từ', value: file.name.length > 22 ? file.name.substring(0, 20) + '...' : file.name, type: 'confident' },
                             { label: 'Thời gian quét', value: new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit'}) + ' - ' + new Date().toLocaleDateString('vi-VN'), type: 'confident' },
-                            { label: 'Cửa hàng/Hộ KD', value: 'Cửa hàng Đặc sản Tây Ninh', type: 'confident' },
+                            { label: 'Cửa hàng/Hộ KD', value: 'Cửa hàng mẫu (minh họa)', type: 'confident' },
                             { label: 'Combo đặc sản (x2)', value: '640.000đ', type: 'confident' },
                             { 
                                 label: 'Phí giao hàng CoD', 
@@ -1128,7 +1131,7 @@
             const data = sampleData[type] || sampleData.invoice;
             const container = document.getElementById('ocrResult');
 
-            let extractedHTML = '<h3>🤖 AI bóc tách <span style="font-size:11px;font-weight:normal;color:var(--text-secondary);margin-left:auto;">💡 Chạm vào dòng để sửa</span></h3>';
+            let extractedHTML = '<h3>🤖 AI bóc tách' + (type === 'custom' ? ' <span style="font-size:11px;font-weight:600;color:#f4b942;">(dữ liệu mẫu)</span>' : '') + ' <span style="font-size:11px;font-weight:normal;color:var(--text-secondary);margin-left:auto;">💡 Chạm vào dòng để sửa</span></h3>';
             data.extracted.forEach((f, idx) => {
                 const isUncertain = f.type && f.type.includes('uncertain');
                 const isCorrected = f.type && f.type.includes('corrected');
@@ -1151,7 +1154,7 @@
             });
             const isAllPerfect = data.confidence === 100;
             extractedHTML += `<div class="confidence-bar ${isAllPerfect ? 'all-perfect' : ''}">
-                <span style="font-size:12px;">🎯 Độ chính xác:</span>
+                <span style="font-size:12px;">🎯 Độ tin cậy nhận diện:</span>
                 <div class="bar"><div class="bar-fill" id="confFill"></div></div>
                 <span id="confText" style="font-size:13px; font-weight:700; color: var(--accent-teal);">${data.confidence}%${isAllPerfect ? ' (Hoàn hảo)' : ''}</span>
             </div>`;
@@ -1348,7 +1351,7 @@
             const steps = [
                 { pct: 25, text: '📂 Thu thập dữ liệu từ 47 hóa đơn...' },
                 { pct: 50, text: '📊 Tổng hợp bảng thu chi, lãi lỗ...' },
-                { pct: 75, text: '📝 Định dạng chuẩn ngân hàng...' },
+                { pct: 75, text: '📝 Định dạng theo mẫu báo cáo thu chi...' },
                 { pct: 100, text: '✅ Hoàn thành! Hồ sơ đã sẵn sàng.' },
             ];
 
@@ -1361,7 +1364,7 @@
                         downloadBtn.style.opacity = '1';
                         downloadBtn.style.pointerEvents = 'all';
                         downloadBtn.onclick = () => {
-                            showToast('📥 <strong>Đã tải file PDF:</strong> BaoCaoTaiChinh_BaThanh_Agribank.pdf');
+                            showToast('📄 <strong>(Mô phỏng)</strong> Bản thật sẽ tải file PDF: BaoCaoTaiChinh_MauMinhHoa.pdf');
                         };
                     }
                 }, 450 * (i + 1));
@@ -1379,7 +1382,7 @@
         }
 
         function exportPDF() {
-            showToast('📄 <strong>Đã xuất file:</strong> BaoCaoThangTu_062026.pdf (Chuẩn ngân hàng)');
+            showToast('📄 <strong>(Mô phỏng)</strong> Bản thật sẽ xuất file: BaoCaoThang_062026.pdf');
         }
 
         // Human-in-the-loop Editing
@@ -1471,7 +1474,7 @@
 
             closeEditModal();
             renderOCR(currentEditType);
-            showToast(`✨ Đã lưu hiệu chỉnh "${item.label}" = <strong>${newVal}</strong>. Độ chính xác đạt <strong>${dataObj.confidence}%</strong>!`);
+            showToast(`✨ Đã lưu hiệu chỉnh "${item.label}" = <strong>${newVal}</strong>. Độ tin cậy đạt <strong>${dataObj.confidence}%</strong>!`);
         }
 
         function showToast(msg) {
