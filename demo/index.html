@@ -648,8 +648,8 @@
         .step-dot, .stat-card, .btn, .processing-animation {
             will-change: transform;
         }
-            .demo-ribbon { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 9000; background: #2b2410; color: #f4b942; border: 1px solid rgba(244,185,66,0.55); padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; pointer-events: none; white-space: nowrap; font-family: Inter, system-ui, sans-serif; }
-        @media (max-width: 768px) { body { padding-bottom: 150px; } .demo-ribbon { bottom: 76px; font-size: 11px; white-space: normal; text-align: center; width: calc(100% - 48px); } }
+            .demo-ribbon { position: absolute; top: 14px; right: 16px; z-index: 9000; background: #2b2410; color: #f4b942; border: 1px solid rgba(244,185,66,0.55); padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; pointer-events: none; white-space: nowrap; font-family: Inter, system-ui, sans-serif; }
+        @media (max-width: 768px) { body { padding-bottom: 150px; } .demo-ribbon { position: fixed; top: auto; right: auto; left: 50%; transform: translateX(-50%); bottom: 76px; font-size: 11px; white-space: normal; text-align: center; width: calc(100% - 48px); } }
     </style>
 </head>
 <body>
