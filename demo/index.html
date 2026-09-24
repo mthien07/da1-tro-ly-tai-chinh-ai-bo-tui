@@ -649,11 +649,11 @@
             will-change: transform;
         }
             .demo-ribbon { position: absolute; top: 14px; right: 16px; z-index: 9000; background: #2b2410; color: #f4b942; border: 1px solid rgba(244,185,66,0.55); padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 600; pointer-events: none; white-space: nowrap; font-family: Inter, system-ui, sans-serif; }
-        @media (max-width: 768px) { body { padding-bottom: 150px; } .demo-ribbon { position: fixed; top: auto; right: auto; left: 50%; transform: translateX(-50%); bottom: 76px; font-size: 11px; white-space: normal; text-align: center; width: calc(100% - 48px); } }
+        @media (max-width: 768px) { body { padding-top: 27px !important; } .demo-ribbon { position: fixed; top: 0; left: 0; right: 0; bottom: auto; transform: none; width: auto; max-width: none; border-radius: 0; border-width: 0 0 1px; padding: 5px 10px; font-size: 11px; line-height: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; } .demo-ribbon .rb-more { display: none; } }
     </style>
 </head>
 <body>
-    <div class="demo-ribbon">Bản demo mô phỏng giao diện · Dữ liệu minh họa · OCR thật nằm ở backend MVP</div>
+    <div class="demo-ribbon">Bản demo mô phỏng<span class="rb-more"> giao diện</span> · Dữ liệu minh họa<span class="rb-more"> · OCR thật nằm ở backend MVP</span></div>
     <div class="container">
         <header>
             <div class="logo-badge">🐝 HTX OneBee × AI</div>
